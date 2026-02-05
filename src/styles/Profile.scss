@@ -1,0 +1,112 @@
+.profile-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 2rem;
+    flex-wrap: wrap;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+
+    .profile-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 20px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .profile-info {
+        flex: 1;
+        align-items: center;
+
+        .info-group {
+            display: flex;
+            align-items: center;
+
+            &.name-toggle {
+                justify-content: space-between;
+            }
+
+            &.cta-buttons {
+                gap: 0.5rem;
+
+                .btn {
+                    padding: 0.3rem 1rem;
+                    font-weight: 600;
+                    border: 1px solid var(--foreground);
+                    border-radius: 4px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    &.resume {
+                        background: var(--foreground);
+                        color: var(--background)
+                    }
+
+                    &.portfolio {
+                        flex: 1;
+                        align-items: center;
+                        justify-content: space-between;
+                        
+                        div {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.85rem;
+
+            &.work {
+                padding: 1rem 0;
+                font-size: 1.2rem;
+            }
+        }
+
+        .name-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.90rem;
+
+            .verified-badge {
+                width: 22px;
+                height: 22px;
+                object-fit: contain;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-row {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .profile-info {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+
+            .info-group {
+                width: 100%;
+            }
+        }
+    }
+}

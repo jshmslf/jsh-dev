@@ -1,3 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap");
+
+:root {
+  /* Color */
+  --background: #f2f3f2;
+  --foreground: #212227;
+  --primary: #f90143;
+  --white: #ffffff;
+
+  --text-body: "Geist", sans-serif;
+
+  --border-radius: 8px;
+  --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.10);
+}
+
+[data-theme="dark"] {
+  --background: #0f0f11;
+  // --background: #212227;
+  --foreground: #f2f3f2;
+  --accent: #f90143;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body,
+a,
+button {
+  padding: 0;
+  font-family: var(--text-body);
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+body {
+  background-color: var(--background);
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
