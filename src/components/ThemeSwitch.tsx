@@ -18,24 +18,17 @@ const ThemeSwitch = () => {
         localStorage.setItem("theme", theme);
     }, [theme]);
 
-    const toggleTheme = () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-    }
-
-
     return (
-        <button className={`theme-switch ${theme}`}
-            onClick={toggleTheme}
+        <button className={`theme-button ${theme}`}
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle Dark Mode"
         >
-            <span className="thumb">
-                <span className="icon sun">
-                    <Lineicons icon={Sun1Bulk} size={20} />
-                </span>
+            <span className="icon sun">
+                <Lineicons icon={Sun1Bulk} size={25} />
+            </span>
 
-                <span className="icon moon">
-                    <Lineicons icon={MoonHalfRight5Bulk} size={16} />
-                </span>
+            <span className="icon moon">
+                <Lineicons icon={MoonHalfRight5Bulk} size={20} />
             </span>
         </button>
     )

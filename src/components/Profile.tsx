@@ -8,35 +8,30 @@ import { LuGithub } from "react-icons/lu";
 
 const Profile = () => {
   return (
-    <div className="profile-row">
-      {/* Column 1: Profile Photo */}
+    <div className="card profile">
       <div className="profile-photo">
         <img src="/profile.jpg" alt="My Photo" />
       </div>
 
-      {/* Column 2: Info */}
       <div className="profile-info">
-        {/* Group 1: Name + Theme Toggle */}
         <div className="info-group name-toggle">
           <div className="name-badge">
-            <h1>Joshua Verceles</h1>
+            <h1 className="text-3xl">Joshua Verceles</h1>
             <img src={checkBadge} alt="Verified" className="verified-badge"/>
           </div>
           <ThemeSwitch />
         </div>
 
-        {/* Group 2: Location */}
         <div className="info">
           <HiOutlineLocationMarker />
           <p>Pangasinan, Philippines</p>
         </div>
 
-        {/* Group 3: Job Position */}
         <div className="info work">
-          <p>Software Engineer</p>
+          <p className="text-lg">Software Engineer</p>
         </div>
 
-        {/* Group 4: CTA Buttons */}
+        {/* CTA */}
         <div className="info-group cta-buttons">
           <button className="btn resume">
             <LuGithub />

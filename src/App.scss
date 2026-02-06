@@ -4,6 +4,23 @@
   padding: 1rem;
 }
 
+.main-layout {
+  display: grid;
+  grid-template-columns:4fr 2fr;
+  gap: var(--gap);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

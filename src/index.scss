@@ -1,16 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap");
 
 :root {
-  /* Color */
+  // Color
   --background: #f2f3f2;
   --foreground: #212227;
   --primary: #f90143;
-  --white: #ffffff;
 
   --text-body: "Geist", sans-serif;
 
   --border-radius: 8px;
+  --gap: 15px;
+
   --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.10);
+  --card-background: #fff;
+
+  // Typography Scale
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
 }
 
 [data-theme="dark"] {
@@ -18,6 +30,42 @@
   // --background: #212227;
   --foreground: #f2f3f2;
   --accent: #f90143;
+
+  --card-background: #080808;
+
+  --box-shadow: 0px 2px 0px 0px rgba(127, 127, 127, 0.722);
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-base {
+  font-size: var(--text-base);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+}
+
+.text-3xl {
+  font-size: var(--text-3xl);
+}
+
+.text-4xl {
+  font-size: var(--text-4xl);
 }
 
 *,
@@ -43,6 +91,47 @@ button {
 
 body {
   background-color: var(--background);
+}
+
+a, span, button, p {
+  font-size: var(--text-base);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--foreground);
+  padding: 20px 1.5rem;
+
+  &-title {
+    margin-bottom: 15px;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
 }
 
 /* :root {

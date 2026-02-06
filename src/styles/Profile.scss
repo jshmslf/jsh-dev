@@ -1,12 +1,9 @@
-.profile-row {
+.profile {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 10px 2rem;
+    gap: 2rem;
     flex-wrap: wrap;
-    background-color: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    margin-bottom: var(--gap);
 
     .profile-photo {
         width: 150px;
@@ -41,10 +38,7 @@
                     font-weight: 600;
                     border: 1px solid var(--foreground);
                     border-radius: 4px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
+                    color: var(--foreground);
 
                     &.resume {
                         background: var(--foreground);
@@ -70,11 +64,9 @@
             display: flex;
             gap: 10px;
             align-items: center;
-            font-size: 0.85rem;
 
             &.work {
                 padding: 1rem 0;
-                font-size: 1.2rem;
             }
         }
 
@@ -82,7 +74,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.90rem;
 
             .verified-badge {
                 width: 22px;
