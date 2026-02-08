@@ -123,11 +123,8 @@ a, span, button, p {
   color: var(--foreground);
   padding: 20px 1.5rem;
 
-  &-title {
-    margin-bottom: 15px;
-  }
-
   &-content {
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
     gap: 25px;

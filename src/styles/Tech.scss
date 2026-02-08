@@ -1,0 +1,54 @@
+.tech {
+    display: flex;
+    flex-direction: column;
+
+    .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .view-all {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: var(--foreground);
+            text-decoration: none;
+            transition: transform 0.2s ease;
+    
+            &:hover {
+                transform: translateX(2px);
+            }
+        }
+    }
+
+    .tech-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .tech-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            padding-left: 10px;
+            gap: 0.85rem;
+            
+            .badge {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.9rem;
+                background: var(--card-background);
+                box-shadow: var(--box-shadow);
+                border-radius: 4px;
+            }
+        }
+    }
+}
+
+
+
+
