@@ -21,3 +21,12 @@
   flex-direction: column;
   gap: var(--gap);
 }
+
+.footer {
+  margin-top: var(--gap);
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--foreground);
+  font-size: 1rem;
+  opacity: 0.6;
+}
