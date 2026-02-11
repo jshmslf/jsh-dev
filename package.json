@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "packageManager": "pnpm@10.28.2",
-
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,6 +13,7 @@
   "dependencies": {
     "@lineiconshq/free-icons": "^1.0.4",
     "@lineiconshq/react-lineicons": "^1.0.5",
+    "@supabase/supabase-js": "^2.95.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0"

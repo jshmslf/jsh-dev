@@ -1,0 +1,13 @@
+.socials {
+    .link {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        color: var(--foreground);
+        text-decoration: none;
+        font-weight: 500;
+        box-shadow: var(--box-shadow);
+        padding: 5px 10px;
+        border-radius: var(--border-radius);
+    }
+}

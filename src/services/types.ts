@@ -1,3 +1,5 @@
+import type { IconType } from "react-icons";
+
 export type PreviewConfig = {
     limit?: number;
 };
@@ -16,5 +18,17 @@ export type ExperienceItem = {
     company_name: string,
     starting_year: string,
     ending_year?: string,
+};
+
+export type ProjectItem = {
+    project_title: string,
+    project_desc: string,
+    project_link?: string,
+};
+
+export type SocialsItem = {
+    icon: IconType,
+    social_title: string,
+    social_link: string,
 };
 

@@ -33,15 +33,15 @@ const Profile = () => {
 
         {/* CTA */}
         <div className="info-group cta-buttons">
-          <button className="btn resume">
+          <a href="https://github.com/jshmslf" className="btn resume hover-translate" target="_blank">
             <LuGithub />
             GitHub
-          </button>
-          <button className="btn email">
+          </a>
+          <button className="btn email hover-translate">
             <MdMailOutline />
             Send Email
           </button>
-          <button className="btn portfolio">
+          <button className="btn portfolio hover-translate">
             <div>
               <PiPolygon />
               Art Portfolio
