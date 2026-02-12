@@ -50,6 +50,7 @@ available commands:
 - whoami    → about me
 - codes     → view projects
 - close     → return home
+- clear     → clear terminal
                 `;
                 break;
 
@@ -64,6 +65,11 @@ available commands:
 
             case "close":
                 navigate("/");
+                return;
+            
+            case "clear":
+                setHistory([]);
+                setCommand("");
                 return;
 
             default:
