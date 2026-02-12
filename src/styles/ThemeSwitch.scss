@@ -60,3 +60,51 @@
         }
     }
 }
+
+/* Tablets / Medium screens */
+@media (max-width: 1024px) {
+    .theme-button {
+        width: 38px;
+        height: 38px;
+
+        .sun {
+            font-size: 22px;
+        }
+
+        .moon {
+            font-size: 18px;
+        }
+    }
+}
+
+/* Mobile / Small screens */
+@media (max-width: 768px) {
+    .theme-button {
+        width: 34px;
+        height: 34px;
+
+        .sun {
+            font-size: 20px;
+        }
+
+        .moon {
+            font-size: 16px;
+        }
+    }
+}
+
+/* Extra small screens (phones) */
+@media (max-width: 480px) {
+    .theme-button {
+        width: 30px;
+        height: 30px;
+
+        .sun {
+            font-size: 18px;
+        }
+
+        .moon {
+            font-size: 14px;
+        }
+    }
+}

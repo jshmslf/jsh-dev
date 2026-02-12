@@ -29,6 +29,34 @@
     }
 }
 
+@media (max-width: 768px) {
+    .tech {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .view-all {
+                margin-top: 8px;
+            }
+        }
+
+        .tech-group {
+            .tech-title {
+                font-size: 0.95rem; // slightly smaller for mobile
+            }
+
+            .badge-row {
+                padding-left: 0;
+                gap: 0.5rem;
+
+                .badge {
+                    font-size: 0.85rem;
+                    padding: 0.2rem 0.6rem;
+                }
+            }
+        }
+    }
+}
 
 
 

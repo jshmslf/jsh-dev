@@ -30,3 +30,17 @@
   font-size: 1rem;
   opacity: 0.6;
 }
+
+@media (max-width: 768px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    /* stack into single column */
+    gap: var(--gap);
+  }
+
+  .left,
+  .right {
+    flex-direction: column;
+    gap: var(--gap);
+  }
+}

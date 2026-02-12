@@ -3,7 +3,6 @@ import Experience from "../components/Experience";
 import Likes from "../components/Likes";
 import Project from "../components/Project";
 import SocialLinks from "../components/SocialLinks";
-// import Spotify from "../components/Spotify";
 import Tech from "../components/Tech";
 
 function Home() {
