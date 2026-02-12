@@ -1,0 +1,165 @@
+.notfound {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--text-mono);
+    padding: 24px;
+    width: 100%;
+}
+
+.terminal {
+    width: 100%;
+    max-width: 850px;
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    background: #0f0f0f;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+
+    &:focus-within {
+        box-shadow: 0 0 0 1px #27c93f55, 0 0 25px #27c93f22;
+    }
+
+    &-header {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        background: #1a1a1a;
+        position: relative;
+
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+
+            &.red {
+                background: #ff5f56;
+            }
+
+            &.yellow {
+                background: #ffbd2e;
+            }
+
+            &.green {
+                background: #27c93f;
+            }
+
+            &:hover {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    &-body {
+        padding: 24px;
+        color: #eaeaea;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        overflow-y: auto;
+        flex: 1;
+        scroll-behavior: smooth;
+
+        // scrollbar-color: #27c93f #1a1a1a;
+        // scrollbar-width: thin;
+
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #27c93f;
+            border-radius: 4px;
+
+            &:hover {
+                background: #1ed760;
+            }
+        }
+
+        .prompt {
+            color: #27c93f;
+            margin-right: 6px;
+        }
+
+        .error {
+            color: #ff5f56;
+            margin-top: 12px;
+        }
+
+        .terminal-line {
+            white-space: pre-wrap;
+            margin-top: 8px;
+        }
+
+        .command-form {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+
+            .input-wrapper {
+                position: relative;
+                flex: 1;
+                margin-left: 6px;
+                cursor: text;
+
+                .real-input {
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0;
+                    border: none;
+                    outline: none;
+                }
+
+                .fake-input {
+                    color: #27c93f;
+                    white-space: pre;
+
+                    .fake-cursor {
+                        display: inline-block;
+                        width: 8px;
+                        height: 1rem;
+                        margin-left: 2px;
+                        background: #27c93f;
+                        animation: blink 1s infinite;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+}

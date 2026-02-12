@@ -27,6 +27,17 @@ const backend: Section<BadgeItem> = {
     ]
 }
 
+const devTools: Section<BadgeItem> = {
+    title: "Dev Tools",
+    items: [
+        { label: "VS Code" },
+        { label: "PyCharm" },
+        { label: "GitHub" },
+        { label: "Supabase" },
+        { label: "GitLab" },
+    ]
+}
+
 export const techService = {
     getPreview() {
         return [
@@ -37,11 +48,15 @@ export const techService = {
             {
                 ...backend,
                 items: backend.items.slice(0, 4)
+            },
+            {
+                ...devTools,
+                items: devTools.items.slice(0, 5)
             }
         ]
     },
 
     getAll() {
-        return [frontend, backend];
+        return [frontend, backend, devTools];
     }
 }
