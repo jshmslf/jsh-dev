@@ -7,7 +7,7 @@ type MainLayoutProps = {
 
 function MainLayout({ children }: MainLayoutProps) {
     return (
-    <>
+    <>    
         <Profile />
 
         <main className="main-layout">
