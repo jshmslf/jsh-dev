@@ -1,5 +1,4 @@
 .proj {
-
     .card-content {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -25,5 +24,12 @@
             }
         }
     }
+    
+    @media (max-width: 768px) {
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            grid-template-columns: 1fr;
+        }
+    }
 }
-

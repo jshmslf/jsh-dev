@@ -6,7 +6,6 @@ function MainLayout() {
     return (
     <>    
         <Profile />
-
         <main className="main-layout">
             <Outlet/>
         </main>

@@ -4,6 +4,7 @@ import Likes from "../components/Likes";
 import Project from "../components/Project";
 import SocialLinks from "../components/SocialLinks";
 import Tech from "../components/Tech";
+import '../styles/Home.scss';
 
 function Home() {
   return (

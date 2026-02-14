@@ -1,0 +1,19 @@
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+@media (max-width: 768px) {
+    .left,
+    .right {
+        flex-direction: column;
+        gap: var(--gap);
+    }
+}
