@@ -12,6 +12,7 @@ function MainLayout() {
             
         <footer className="footer">
             made with 💖 by jsh
+            <span>v2 - inspired by <a href="https://bryllim.com/" target="_blank">Bryl Lim</a></span>
         </footer>
     </>
     );

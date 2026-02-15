@@ -4,12 +4,11 @@ const frontend: Section<BadgeItem> = {
     title: "Frontend",
     items: [
         { label: "Angular"},
-        { label: "Vite" },
+        { label: "React" },
         { label: "SCSS" },
         { label: "TypeScript" },
-        { label: "React" },
-        { label: "Shadcn/UI" },
         { label: "Tailwind CSS" },
+        { label: "Shadcn/UI" },
         { label: "ESLint" },
     ]
 }
@@ -17,8 +16,8 @@ const frontend: Section<BadgeItem> = {
 const backend: Section<BadgeItem> = {
     title: "Backend",
     items: [
-        { label: "Node.js" },
         { label: "Python" },
+        { label: "Node.js" },
         { label: "PHP" },
         { label: "PostreSQL" },
         { label: "MySQL" },
@@ -31,7 +30,7 @@ const devTools: Section<BadgeItem> = {
     title: "Dev Tools",
     items: [
         { label: "VS Code" },
-        { label: "PyCharm" },
+        { label: "AWS" },
         { label: "GitHub" },
         { label: "Supabase" },
         { label: "GitLab" },

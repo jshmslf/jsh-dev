@@ -1,16 +1,39 @@
 import ThemeSwitch from "./ThemeSwitch";
 import "../styles/Profile.scss";
 import checkBadge from "../assets/check-badge.png"
-import { HiChevronRight, HiOutlineLocationMarker } from "react-icons/hi";
+import pfp from "../assets/pfp.jpg"
+import pfpDark from "../assets/pfp-dark.jpg"
+import {  HiOutlineLocationMarker } from "react-icons/hi";
 import { MdMailOutline } from "react-icons/md";
-import { PiPolygon } from "react-icons/pi";
+// import { PiPolygon } from "react-icons/pi";
 import { LuGithub } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import EmailModal from "./EmailModal";
 
 const Profile = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDark, setIsDark] = useState(
+    document.documentElement.getAttribute("data-theme") === "dark"
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute("data-theme") === "dark";
+      setIsDark(currentTheme);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return() => observer.disconnect();
+  }, []);
+
   return (
     <div className="card profile">
       <div className="profile-photo">
-        <img src="/profile.jpg" alt="My Photo" />
+        <img src={isDark ? pfpDark : pfp} alt="My Photo" />
       </div>
 
       <div className="profile-info">
@@ -28,7 +51,11 @@ const Profile = () => {
         </div>
 
         <div className="info work">
-          <p className="text-lg">Software Engineer</p>
+          <p className="text-lg">
+            {'Software Engineer '}
+            <span className="divider">\</span>
+            {' Graphic Artist'}
+          </p>
         </div>
 
         {/* CTA */}
@@ -37,19 +64,25 @@ const Profile = () => {
             <LuGithub />
             GitHub
           </a>
-          <button className="btn email hover-translate">
+          <button
+            className="btn email hover-translate"
+            onClick={() => setIsModalOpen(true)}
+          >
             <MdMailOutline />
             Send Email
           </button>
-          <button className="btn portfolio hover-translate">
+          {/* <button className="btn portfolio hover-translate">
             <div>
               <PiPolygon />
               Art Portfolio
             </div>
-            <HiChevronRight />
-          </button>
+          </button> */}
         </div>
       </div>
+      <EmailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

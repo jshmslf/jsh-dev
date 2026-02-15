@@ -1,4 +1,4 @@
-import { HiChevronRight } from "react-icons/hi"
+// import { HiChevronRight } from "react-icons/hi"
 import '../styles/Tech.scss';
 import { portfolioService } from "../services/portfolio.service";
 
@@ -9,9 +9,9 @@ function Tech() {
         <div className="card tech">
             <div className="card-header">
                 <h2 className="card-title">Tech Stack</h2>
-                <a href="/tech-stack" className="view-all">
+                {/* <a href="/tech-stack" className="view-all">
                     View all <HiChevronRight />
-                </a>
+                </a> */}
             </div>
 
             <div className="card-content">

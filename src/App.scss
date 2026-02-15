@@ -15,8 +15,18 @@
   padding: 1rem 0;
   text-align: center;
   color: var(--foreground);
-  font-size: 1rem;
-  opacity: 0.6;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  
+  span {
+    opacity: 0.6;
+    font-size: var(--text-xs);
+    a {
+      font-size: var(--text-xs);
+      color: var(--foreground);
+    }
+  }
 }
 
 @media (max-width: 768px) {

@@ -9,7 +9,7 @@
     .profile-photo {
         width: 150px;
         height: 150px;
-        border-radius: 20px;
+        border-radius: var(--border-radius);
         overflow: hidden;
 
         img {
@@ -50,7 +50,6 @@
                     &.portfolio {
                         flex: 1;
                         align-items: center;
-                        justify-content: space-between;
                         
                         div {
                             display: flex;
@@ -69,6 +68,11 @@
 
             &.work {
                 padding: 1rem 0;
+                span {
+                    font-weight: 700;
+                    font-size: var(--text-lg);
+                    opacity: 0.5;
+                }
             }
         }
 
