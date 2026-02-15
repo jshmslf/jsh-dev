@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import '../styles/Likes.scss';
 import { supabase } from "../supabase"
+import CountUp from "./CountUp";
 
 type Float = {
     id: number;
@@ -78,7 +79,15 @@ function Likes() {
     return (
         <div className="card likes">
             <div className="like-count">
-                {likes.toLocaleString()}
+                <CountUp
+                    from={0}
+                    to={likes}
+                    separator=","
+                    direction="up"
+                    duration={1}
+                    className="text-4xl"
+                    delay={0.75}
+                />
             </div>
 
             <div className="like-action">
