@@ -5,11 +5,8 @@ function About() {
         <div className="card about">
             <h2 className="card-title text-2xl">About</h2>
             <div className='card-content'>
-                <span>
-                    I&apos;m a software engineer who loves turning complex problems into clean, functional code. After graduating with a degree in Computer Science, I joined an international team where I currently develop modern web and mobile applications using TypeScript and Python.
-                </span>
-                <span>
-                    Right now, I&apos;m spending my time exploring the intersection of software development and AI/ML, looking for new ways to integrate intelligence into the apps I build.
+                <span style={{ textIndent: "1.5em", display: "block" }}>
+                    A Software Engineer who thrives on transforming complex problems into functional, elegant code. With a background in Computer Science and experience in global teams, I specialize in TypeScript and Python development. My current focus is bridging the gap between traditional software and Machine Learning to build the next generation of intelligent applications.
                 </span>
             </div>
         </div>

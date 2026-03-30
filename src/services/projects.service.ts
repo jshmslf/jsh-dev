@@ -5,8 +5,13 @@ const projectSection: Section<ProjectItem> = {
     items: [
         {
             project_title: 'Xtream',
-            project_desc: 'X Clone App',
+            project_desc: 'Movies, TV, and Anime. All in one stream.',
             project_link: 'xtream-now.vercel.app',
+        },
+        {
+            project_title: 'Jointify',
+            project_desc: 'Smart finance for the modern couple.',
+            project_link: 'building',
         },
         {
             project_title: 'W',

@@ -1,4 +1,5 @@
 import About from "../components/About";
+import Dodgers from "../components/Dodgers";
 import Experience from "../components/Experience";
 import Likes from "../components/Likes";
 import LocationCard from "../components/Map";
@@ -20,6 +21,7 @@ function Home() {
           <About />
           <Tech />
           <Project />
+          <Dodgers />
         </section>
       </motion.div>
 
@@ -31,8 +33,8 @@ function Home() {
       <aside className="right">
         <Experience />
         <SocialLinks/>
-        <Likes />
         <LocationCard />  
+        <Likes />
         </aside>
       </motion.div>
     </>
