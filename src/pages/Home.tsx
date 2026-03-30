@@ -1,6 +1,7 @@
 import About from "../components/About";
 import Experience from "../components/Experience";
 import Likes from "../components/Likes";
+import LocationCard from "../components/Map";
 import Project from "../components/Project";
 import SocialLinks from "../components/SocialLinks";
 import Tech from "../components/Tech";
@@ -31,6 +32,7 @@ function Home() {
         <Experience />
         <SocialLinks/>
         <Likes />
+        <LocationCard />  
         </aside>
       </motion.div>
     </>

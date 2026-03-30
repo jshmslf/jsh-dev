@@ -18,8 +18,8 @@ const backend: Section<BadgeItem> = {
     items: [
         { label: "Python" },
         { label: "Node.js" },
-        { label: "PHP" },
         { label: "PostreSQL" },
+        { label: "PHP" },
         { label: "MySQL" },
         { label: "MongoDB" },
         { label: "JWT" },
@@ -32,8 +32,8 @@ const devTools: Section<BadgeItem> = {
         { label: "VS Code" },
         { label: "AWS" },
         { label: "GitHub" },
-        { label: "Supabase" },
-        { label: "GitLab" },
+        { label: "Neon" },
+        { label: "Vercel" },
     ]
 }
 

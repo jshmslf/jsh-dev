@@ -1,93 +1,92 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import '../styles/Likes.scss';
-import { supabase } from "../supabase"
 import CountUp from "./CountUp";
 
-type Float = {
-    id: number;
-    x: number;
-};
+type Float = { id: number; x: number };
+
+const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+const ABACUS_STREAM = "https://abacus.jasoncameron.dev/stream/jshmslf.is-a.dev/portfolio-likes";
 
 function Likes() {
     const [likes, setLikes] = useState(0);
     const [visitorCount, setVisitorCount] = useState(0);
     const [popped, setPopped] = useState(false);
     const [floats, setFloats] = useState<Float[]>([]);
+    const eventSourceRef = useRef<EventSource | null>(null);
+    const [loaded, setLoaded] = useState(false);
 
-    const getVisitorId = () => {
-        let id = localStorage.getItem("visitor_id");
-        if (!id) {
-            id = crypto.randomUUID();
-            localStorage.setItem("visitor_id", id);
-        }
-        return id;
-    }
-
+    // ↓ replace this entire useEffect
     useEffect(() => {
-        const fetchLikes = async () => {
-            const visitorId = getVisitorId();
+        fetch(`${API_BASE}/api/like`)
+            .then(r => r.json())
+            .then(data => {
+                setLikes(data.total_likes ?? 0);
+                setVisitorCount(data.visitor_likes ?? 0);
+                setLoaded(true);  // ← mark as ready
+            })
+            .catch(() => {
+                setLikes(0);
+                setVisitorCount(0);
+                setLoaded(true);
+            });
 
-            const { data: totalData } = await supabase
-                .from("likes_total")
-                .select("count")
-                .eq("id", true)
-                .single();
-            
-            if (totalData) {
-                setLikes(totalData.count);
-            }
-            
-            const { data: visitorData } = await supabase
-                .from("likes_visitors")
-                .select("count")
-                .eq("visitor_id", visitorId)
-                .single();
-            
-            if (visitorData) {
-                setVisitorCount(visitorData.count);
+        const es = new EventSource(ABACUS_STREAM);
+
+        es.onmessage = (e) => {
+            try {
+                const data = JSON.parse(e.data);
+                if (typeof data.value === "number") {
+                    setLikes(data.value);
+                }
+            } catch {
+                // ignore malformed frames
             }
         };
 
-        fetchLikes();
+        es.onerror = () => {
+            es.close();
+        };
+
+        eventSourceRef.current = es;
+
+        return () => es.close();
     }, []);
+    // ↑ end of replacement
 
     const handleLike = async () => {
-        const visitorId = getVisitorId();
-
         setPopped(true);
         const id = Date.now();
         const x = Math.random() * 40 - 20;
-        setFloats((prev) => [...prev, { id, x }]);
+        setFloats(prev => [...prev, { id, x }]);
 
         setTimeout(() => {
             setPopped(false);
-            setFloats((prev) => prev.filter((f) => f.id !== id));
+            setFloats(prev => prev.filter(f => f.id !== id));
         }, 600);
 
-        const { data, error } = await supabase.rpc("give_like", {
-            v_visitor_id: visitorId,
-        });
+        const res = await fetch(`${API_BASE}/api/like`, { method: "POST" });
+        const data = await res.json();
 
-        if (!error && data && data.length > 0) {
-            setLikes(data[0].total_likes);
-            setVisitorCount(data[0].visitor_likes);
-        } else {
-            console.error(error);
+        if (data.total_likes !== undefined) {
+            setLikes(data.total_likes);
+            setVisitorCount(data.visitor_likes);
         }
     };
 
     return (
         <div className="card likes">
             <div className="like-count">
-                <CountUp
-                    from={0}
-                    to={likes}
-                    separator=","
-                    direction="up"
-                    duration={1}
-                    className="text-4xl"
-                    delay={0.75}
-                />
+                {loaded && (
+                    <CountUp
+                        from={0}
+                        to={likes}
+                        separator=","
+                        direction="up"
+                        duration={1}
+                        className="text-4xl"
+                        delay={0.75}
+                    />
+                )}
             </div>
 
             <div className="like-action">
@@ -96,7 +95,7 @@ function Likes() {
                         <span
                             key={f.id}
                             className="float"
-                            style={{left: `calc(25% + ${f.x}px)`}}
+                            style={{ left: `calc(25% + ${f.x}px)` }}
                         >+1</span>
                     ))}
                 </div>
@@ -111,7 +110,7 @@ function Likes() {
             </div>
             <p className="hint">you've tapped {visitorCount.toLocaleString()} times</p>
         </div>
-    )
+    );
 }
 
-export default Likes
+export default Likes;

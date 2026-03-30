@@ -4,6 +4,11 @@ const projectSection: Section<ProjectItem> = {
     title: "Recent Projects",
     items: [
         {
+            project_title: 'Xtream',
+            project_desc: 'X Clone App',
+            project_link: 'xtream-now.vercel.app',
+        },
+        {
             project_title: 'W',
             project_desc: 'X Clone App',
             project_link: 'w-social.vercel.app',
