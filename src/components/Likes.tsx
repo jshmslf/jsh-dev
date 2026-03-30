@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import '../styles/Likes.scss';
-import CountUp from "./CountUp";
 import { getVisitorToken } from "../utils/visitorToken";
 
 type Float = { id: number; x: number };
@@ -99,15 +98,7 @@ function Likes() {
         <div className="card likes">
             <div className="like-count">
                 {loaded && (
-                    <CountUp
-                        from={0}
-                        to={likes}
-                        separator=","
-                        direction="up"
-                        duration={1}
-                        className="text-4xl"
-                        delay={0.75}
-                    />
+                    <span className="text-4xl">{likes.toLocaleString()}</span>
                 )}
             </div>
 
