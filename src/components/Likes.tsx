@@ -40,7 +40,7 @@ function Likes() {
         es.onmessage = (e) => {
             try {
                 const data = JSON.parse(e.data);
-                if (typeof data.value === "number") {
+                if (typeof data.value === "number" && pendingRef.current === 0) {
                     setLikes(data.value);
                 }
             } catch { /* ignore */ }

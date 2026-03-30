@@ -84,7 +84,7 @@ export default function LocationCard() {
       });
 
       L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
+        `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${import.meta.env.VITE_STADIA_API_KEY}`,
         { maxZoom: 20, attribution: "" }
       ).addTo(map);
 
