@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import '../styles/Likes.scss';
 import CountUp from "./CountUp";
+import { getVisitorToken } from "../utils/visitorToken";
 
 type Float = { id: number; x: number };
 
@@ -12,17 +13,22 @@ function Likes() {
     const [visitorCount, setVisitorCount] = useState(0);
     const [popped, setPopped] = useState(false);
     const [floats, setFloats] = useState<Float[]>([]);
-    const eventSourceRef = useRef<EventSource | null>(null);
     const [loaded, setLoaded] = useState(false);
+    const eventSourceRef = useRef<EventSource | null>(null);
 
-    // ↓ replace this entire useEffect
+    // Debounce refs — batch pending taps
+    const pendingRef = useRef(0);
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
     useEffect(() => {
-        fetch(`${API_BASE}/api/like`)
+        const token = getVisitorToken();
+
+        fetch(`${API_BASE}/api/like?token=${token}`)
             .then(r => r.json())
             .then(data => {
                 setLikes(data.total_likes ?? 0);
                 setVisitorCount(data.visitor_likes ?? 0);
-                setLoaded(true);  // ← mark as ready
+                setLoaded(true);
             })
             .catch(() => {
                 setLikes(0);
@@ -31,46 +37,62 @@ function Likes() {
             });
 
         const es = new EventSource(ABACUS_STREAM);
-
         es.onmessage = (e) => {
             try {
                 const data = JSON.parse(e.data);
                 if (typeof data.value === "number") {
                     setLikes(data.value);
                 }
-            } catch {
-                // ignore malformed frames
-            }
+            } catch { /* ignore */ }
         };
-
-        es.onerror = () => {
-            es.close();
-        };
-
+        es.onerror = () => es.close();
         eventSourceRef.current = es;
 
         return () => es.close();
     }, []);
-    // ↑ end of replacement
 
-    const handleLike = async () => {
+    // Flush pending taps to backend after user stops for 1s
+    const flushLikes = () => {
+        const count = pendingRef.current;
+        if (count === 0) return;
+        pendingRef.current = 0;
+
+        const token = getVisitorToken();
+        fetch(`${API_BASE}/api/like`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, count }),
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.total_likes !== undefined) {
+                    setLikes(data.total_likes);
+                    setVisitorCount(data.visitor_likes);
+                }
+            })
+            .catch(() => { /* keep optimistic value */ });
+    };
+
+    const handleLike = () => {
+        // Optimistic UI — instant, no waiting
         setPopped(true);
+        setLikes(prev => prev + 1);
+        setVisitorCount(prev => prev + 1);
+
         const id = Date.now();
         const x = Math.random() * 40 - 20;
         setFloats(prev => [...prev, { id, x }]);
-
         setTimeout(() => {
             setPopped(false);
             setFloats(prev => prev.filter(f => f.id !== id));
         }, 600);
 
-        const res = await fetch(`${API_BASE}/api/like`, { method: "POST" });
-        const data = await res.json();
+        // Accumulate taps
+        pendingRef.current += 1;
 
-        if (data.total_likes !== undefined) {
-            setLikes(data.total_likes);
-            setVisitorCount(data.visitor_likes);
-        }
+        // Reset debounce timer — flush 1s after last tap
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(flushLikes, 1000);
     };
 
     return (
