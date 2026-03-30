@@ -135,23 +135,6 @@ export default function Dodgers() {
 
       <div className="dodgers__col-divider" />
 
-      <div className="dodgers__schedule">
-        <span className="dodgers__col-title">Upcoming</span>
-        {schedule.length > 0 ? schedule.map((g) => (
-          <div key={g.date + g.opponent} className="dodgers__game">
-            <span className="dodgers__game-date">
-              {new Date(g.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-            </span>
-            <span className="dodgers__game-vs">{g.home ? "vs" : "@"}</span>
-            <span className="dodgers__game-opp">{g.opponent}</span>
-          </div>
-        )) : (
-          <span className="dodgers__loading">Loading…</span>
-        )}
-      </div>
-
-      <div className="dodgers__col-divider" />
-
       <div className="dodgers__shohei">
         <span className="dodgers__col-title">Shohei Ohtani</span>
         {shohei ? (
@@ -180,6 +163,25 @@ export default function Dodgers() {
           <span className="dodgers__loading">Loading…</span>
         )}
       </div>
+
+      <div className="dodgers__col-divider" />
+
+      <div className="dodgers__schedule">
+        <span className="dodgers__col-title">Upcoming</span>
+        {schedule.length > 0 ? schedule.map((g) => (
+          <div key={g.date + g.opponent} className="dodgers__game">
+            <span className="dodgers__game-date">
+              {new Date(g.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+            </span>
+            <span className="dodgers__game-vs">{g.home ? "vs" : "@"}</span>
+            <span className="dodgers__game-opp">{g.opponent}</span>
+          </div>
+        )) : (
+          <span className="dodgers__loading">Loading…</span>
+        )}
+      </div>
+
+      
     </div>
   );
 }
