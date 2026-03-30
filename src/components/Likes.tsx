@@ -62,13 +62,6 @@ function Likes() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token, count }),
         })
-            .then(r => r.json())
-            .then(data => {
-                if (data.total_likes !== undefined) {
-                    setLikes(data.total_likes);
-                    setVisitorCount(data.visitor_likes);
-                }
-            })
             .catch(() => { /* keep optimistic value */ });
     };
 
