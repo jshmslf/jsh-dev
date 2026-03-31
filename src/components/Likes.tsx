@@ -7,23 +7,19 @@ type Float = { id: number; x: number };
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
 function Likes() {
-    const [serverTotal, setServerTotal] = useState(0);   // last confirmed DB total
-    const [localDelta, setLocalDelta] = useState(0);     // optimistic taps not yet flushed
+    const [serverTotal, setServerTotal] = useState(0);
+    const [localDelta, setLocalDelta] = useState(0);
     const [visitorCount, setVisitorCount] = useState(0);
     const [popped, setPopped] = useState(false);
     const [floats, setFloats] = useState<Float[]>([]);
     const [loaded, setLoaded] = useState(false);
 
-    const pendingRef = useRef(0);          // taps buffered for next flush
+    const pendingRef = useRef(0);       // taps not yet sent to server
+    const flushedRef = useRef(0);       // taps sent but not yet confirmed by SSE
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const isFlushing = useRef(false);      // true while POST is in-flight
 
-    // Displayed total = server total + any un-flushed local taps
     const displayTotal = serverTotal + localDelta;
 
-    // ----------------------------------------------------------------
-    // Bootstrap — fetch initial counts + open SSE
-    // ----------------------------------------------------------------
     useEffect(() => {
         const token = getVisitorToken();
 
@@ -43,11 +39,13 @@ function Likes() {
                 const data = JSON.parse(e.data);
                 if (typeof data.total === "number") {
                     setServerTotal(data.total);
-                    // Once server confirms, clear the local delta
-                    // (only if we're not mid-flush to avoid flicker)
-                    if (!isFlushing.current) {
-                        setLocalDelta(0);
-                    }
+                    // Subtract only the confirmed flushed amount from localDelta
+                    // pendingRef taps are still in-flight locally, keep them
+                    setLocalDelta((d) => {
+                        const confirmed = flushedRef.current;
+                        flushedRef.current = 0;
+                        return Math.max(0, d - confirmed);
+                    });
                 }
             } catch { /* ignore */ }
         };
@@ -56,15 +54,12 @@ function Likes() {
         return () => es.close();
     }, []);
 
-    // ----------------------------------------------------------------
-    // Flush — batch POST after user goes idle for 1 s
-    // ----------------------------------------------------------------
     const flushLikes = async () => {
         const count = pendingRef.current;
         if (count === 0) return;
 
         pendingRef.current = 0;
-        isFlushing.current = true;
+        flushedRef.current += count; // mark as in-flight
 
         const token = getVisitorToken();
         try {
@@ -73,19 +68,13 @@ function Likes() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token, count }),
             });
-            // SSE will push the new server total → serverTotal updates
-            // then we zero out localDelta so display stays stable
-            setLocalDelta(0);
+            // SSE push will arrive and subtract flushedRef from localDelta
         } catch {
-            // Network error — keep localDelta so the number doesn't jump
-        } finally {
-            isFlushing.current = false;
+            // On error, roll back flushedRef so delta stays visible
+            flushedRef.current -= count;
         }
     };
 
-    // ----------------------------------------------------------------
-    // Tap handler
-    // ----------------------------------------------------------------
     const handleLike = () => {
         setPopped(true);
         setLocalDelta((d) => d + 1);
