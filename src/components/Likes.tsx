@@ -1,88 +1,106 @@
-import { useEffect, useRef, useState } from "react"
-import '../styles/Likes.scss';
+import { useEffect, useRef, useState } from "react";
+import "../styles/Likes.scss";
 import { getVisitorToken } from "../utils/visitorToken";
 
 type Float = { id: number; x: number };
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
-const ABACUS_STREAM = "https://abacus.jasoncameron.dev/stream/jshmslf.is-a.dev/portfolio-likes";
 
 function Likes() {
-    const [likes, setLikes] = useState(0);
+    const [serverTotal, setServerTotal] = useState(0);   // last confirmed DB total
+    const [localDelta, setLocalDelta] = useState(0);     // optimistic taps not yet flushed
     const [visitorCount, setVisitorCount] = useState(0);
     const [popped, setPopped] = useState(false);
     const [floats, setFloats] = useState<Float[]>([]);
     const [loaded, setLoaded] = useState(false);
-    const eventSourceRef = useRef<EventSource | null>(null);
 
-    // Debounce refs — batch pending taps
-    const pendingRef = useRef(0);
+    const pendingRef = useRef(0);          // taps buffered for next flush
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const isFlushing = useRef(false);      // true while POST is in-flight
 
+    // Displayed total = server total + any un-flushed local taps
+    const displayTotal = serverTotal + localDelta;
+
+    // ----------------------------------------------------------------
+    // Bootstrap — fetch initial counts + open SSE
+    // ----------------------------------------------------------------
     useEffect(() => {
         const token = getVisitorToken();
 
         fetch(`${API_BASE}/api/like?token=${token}`)
-            .then(r => r.json())
-            .then(data => {
-                setLikes(data.total_likes ?? 0);
+            .then((r) => r.json())
+            .then((data) => {
+                setServerTotal(data.total_likes ?? 0);
                 setVisitorCount(data.visitor_likes ?? 0);
                 setLoaded(true);
             })
-            .catch(() => {
-                setLikes(0);
-                setVisitorCount(0);
-                setLoaded(true);
-            });
+            .catch(() => setLoaded(true));
 
-        const es = new EventSource(ABACUS_STREAM);
+        const es = new EventSource(`${API_BASE}/api/like/stream`);
+
         es.onmessage = (e) => {
             try {
                 const data = JSON.parse(e.data);
-                if (typeof data.value === "number" && pendingRef.current === 0) {
-                    setLikes(data.value);
+                if (typeof data.total === "number") {
+                    setServerTotal(data.total);
+                    // Once server confirms, clear the local delta
+                    // (only if we're not mid-flush to avoid flicker)
+                    if (!isFlushing.current) {
+                        setLocalDelta(0);
+                    }
                 }
             } catch { /* ignore */ }
         };
-        es.onerror = () => es.close();
-        eventSourceRef.current = es;
 
+        es.onerror = () => es.close();
         return () => es.close();
     }, []);
 
-    // Flush pending taps to backend after user stops for 1s
-    const flushLikes = () => {
+    // ----------------------------------------------------------------
+    // Flush — batch POST after user goes idle for 1 s
+    // ----------------------------------------------------------------
+    const flushLikes = async () => {
         const count = pendingRef.current;
         if (count === 0) return;
+
         pendingRef.current = 0;
+        isFlushing.current = true;
 
         const token = getVisitorToken();
-        fetch(`${API_BASE}/api/like`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, count }),
-        })
-            .catch(() => { /* keep optimistic value */ });
+        try {
+            await fetch(`${API_BASE}/api/like`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token, count }),
+            });
+            // SSE will push the new server total → serverTotal updates
+            // then we zero out localDelta so display stays stable
+            setLocalDelta(0);
+        } catch {
+            // Network error — keep localDelta so the number doesn't jump
+        } finally {
+            isFlushing.current = false;
+        }
     };
 
+    // ----------------------------------------------------------------
+    // Tap handler
+    // ----------------------------------------------------------------
     const handleLike = () => {
-        // Optimistic UI — instant, no waiting
         setPopped(true);
-        setLikes(prev => prev + 1);
-        setVisitorCount(prev => prev + 1);
+        setLocalDelta((d) => d + 1);
+        setVisitorCount((v) => v + 1);
 
         const id = Date.now();
         const x = Math.random() * 40 - 20;
-        setFloats(prev => [...prev, { id, x }]);
+        setFloats((prev) => [...prev, { id, x }]);
         setTimeout(() => {
             setPopped(false);
-            setFloats(prev => prev.filter(f => f.id !== id));
+            setFloats((prev) => prev.filter((f) => f.id !== id));
         }, 600);
 
-        // Accumulate taps
         pendingRef.current += 1;
 
-        // Reset debounce timer — flush 1s after last tap
         if (debounceRef.current) clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(flushLikes, 1000);
     };
@@ -91,23 +109,25 @@ function Likes() {
         <div className="card likes">
             <div className="like-count">
                 {loaded && (
-                    <span className="text-4xl">{likes.toLocaleString()}</span>
+                    <span className="text-4xl">{displayTotal.toLocaleString()}</span>
                 )}
             </div>
 
             <div className="like-action">
                 <div className="float-layer">
-                    {floats.map(f => (
+                    {floats.map((f) => (
                         <span
                             key={f.id}
                             className="float"
                             style={{ left: `calc(25% + ${f.x}px)` }}
-                        >+1</span>
+                        >
+                            +1
+                        </span>
                     ))}
                 </div>
 
                 <button
-                    className={`like-btn ${popped ? "pop" : ""}, hover-translate`}
+                    className={`like-btn ${popped ? "pop" : ""} hover-translate`}
                     onClick={handleLike}
                     aria-label="Give A Like To My Portfolio"
                 >
