@@ -34,40 +34,54 @@
 
 ### Color Tokens
 
-All colors are CSS custom properties set on `:root` and `[data-theme="light"]`.
+All colors are CSS custom properties set on `:root` and `.dark`.
 **Never hardcode hex values in component styles.** Always use tokens.
 
 ```css
 /* Structure */
---bg        background page
---bg2       card surfaces
---bg3       inset / nested surfaces (e.g., stack items, project cards inner)
---border    all borders
+--background    page background
+--card          card surfaces
+--muted         inset / nested surfaces (tags, pills, subtle fills)
+--border        all borders
 
 /* Text */
---text      primary readable text
---text2     secondary / muted
---text3     hints, placeholders, disabled
+--foreground        primary readable text
+--muted-foreground  secondary / muted
 
-/* Accent — user-controlled */
---accent        solid accent color (persisted in localStorage)
---accent-10     10% opacity variant (hover states, subtle fills)
---accent-20     20% opacity variant (selection, rings)
+/* Accent — user-controlled at runtime */
+--primary       solid accent color (set via ThemeCard, not persisted)
 ```
 
 ### Accent Color System
 
-- Default: `#1DB954`
-- User can pick from 9 presets or use the custom color input.
-- **All** interactive accent usage (borders, fills, dots, numbers) must read from `var(--accent)` — never hardcode a color for an accented element.
+- Default: `#1DB954` (Spotify green)
+- User picks from 9 presets in `ThemeCard`: Spotify, Sage, Blush, Sky, Peach, Lilac, Mint, Butter, Rose
+- Presets defined in `src/hooks/useAccent.ts` → `ACCENT_PRESETS`
+- Applied via `document.documentElement.style.setProperty("--primary", color)` — **not** persisted in localStorage
+- **All** interactive accent usage must read from `var(--primary)` — never hardcode a color
+
+### Border Radius System
+
+Two separate tokens control radius — both set at runtime via `ThemeCard`:
+
+```css
+--card-radius: 14px   → used by .card class (Cards, containers)
+--ui-radius:   8px    → used by buttons, pills, tags, small elements
+```
+
+- `applyRadius(value)` in `ThemeCard` sets both tokens
+- When preset is `Full (999px)`, `--card-radius` is **capped at `24px`** to prevent pill-shaped cards
+- `--ui-radius` goes full `999px` on Full
+- Radius presets: None (0px) · SM (6px) · MD (14px) · LG (20px) · Full (999px)
+- **Never hardcode `borderRadius`** in components — always use `var(--card-radius)` or `var(--ui-radius)`
 
 ### Theming
 
-- Default theme: **dark**
-- Toggled with `data-theme="light"` on `<html>`.
-- Persisted to `localStorage` under key `portfolio-theme`.
-- Anti-flash script in `layout.tsx` reads both values before first paint.
-- **Never** use Tailwind dark mode classes (`dark:`) — use CSS variables only.
+- Default theme: **dark** — `dark` class on `<html>` set server-side in `layout.tsx`
+- Toggled by `useTheme` hook — adds/removes `dark` class on `<html>`
+- Anti-flash inline script in `layout.tsx` reads `localStorage` before first paint, defaults to dark
+- Theme is **persisted** in `localStorage` as `"theme": "dark" | "light"`
+- **Never** use Tailwind dark mode classes (`dark:`) — use CSS variables only
 
 ### Spacing & Layout
 
@@ -89,23 +103,23 @@ All colors are CSS custom properties set on `:root` and `[data-theme="light"]`.
 ```
 src/
 ├── app/
-│   ├── globals.css       ← all CSS tokens, Tailwind import, font import
-│   ├── layout.tsx        ← anti-flash script, metadata
-│   └── page.tsx          ← bento grid layout (server component)
+│   ├── globals.css           ← all CSS tokens, .card, .profile-btn, .content-wrapper
+│   ├── layout.tsx            ← anti-flash script, dark class default, metadata
+│   └── page.tsx              ← homepage layout (server component)
 ├── components/
-│   ├── Topbar.tsx        ← theme toggle button (client component)
-│   └── cards/
-│       ├── Card.tsx          ← base card wrapper
-│       ├── HeroCard.tsx      ← intro / hero
-│       ├── AccentCard.tsx    ← color picker (client component)
-│       └── index.tsx         ← LocationCard, StatsCard, StackCard,
-│                                ExperienceCard, ProjectsCard, SocialsCard
+│   └── homepage/
+│       ├── Profile.tsx       ← hero section (server component)
+│       ├── ThemeToggle.tsx   ← dark/light toggle button (client component)
+│       ├── ContentGrid.tsx   ← 60/40 grid layout
+│       ├── Card.tsx          ← base card wrapper (title, content, optional view all)
+│       ├── TechStackCard.tsx ← tech stack grouped pills
+│       └── ThemeCard.tsx     ← accent + radius controls (client component)
 ├── hooks/
-│   ├── useTheme.ts       ← theme state + toggle
-│   └── useAccent.ts      ← accent state + ACCENT_PRESETS
+│   ├── useTheme.ts           ← dark class toggle, localStorage persist
+│   └── useAccent.ts          ← ACCENT_PRESETS, applyAccent via CSS setProperty
 └── lib/
-    ├── config.ts         ← ALL portfolio content (single source of truth)
-    └── utils.ts          ← cn() helper
+    ├── config.ts             ← ALL portfolio content (single source of truth)
+    └── utils.ts              ← cn() helper
 ```
 
 ---
@@ -155,11 +169,12 @@ CSS vars      kebab-case     --font-mono
 ## What NOT to Do
 
 - ❌ Do not use `Inter`, `Roboto`, or system fonts anywhere.
-- ❌ Do not hardcode colors like `color: "#888"` — use `var(--text2)`.
-- ❌ Do not hardcode accent color — always use `var(--accent)`.
+- ❌ Do not hardcode colors — use `var(--foreground)`, `var(--muted-foreground)`, `var(--primary)`, etc.
+- ❌ Do not hardcode `borderRadius` — use `var(--card-radius)` for cards, `var(--ui-radius)` for UI elements.
 - ❌ Do not use Tailwind dark mode (`dark:` prefix) — CSS vars handle theming.
 - ❌ Do not add content directly in component JSX — update `config.ts`.
 - ❌ Do not use `localStorage` directly in components — use `useTheme` / `useAccent` hooks.
+- ❌ Do not persist accent color in localStorage — it is session-only, set via CSS custom property.
 - ❌ Do not add `position: fixed` elements inside cards (breaks layout flow).
 - ❌ Do not create separate CSS files per component — inline styles + globals only.
 
