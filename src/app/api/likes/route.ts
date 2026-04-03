@@ -1,9 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import { NextRequest, NextResponse } from "next/server";
 
-const sql = neon(process.env.DATABASE_URL!);
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  const sql = neon(process.env.DATABASE_URL!);
   const token = req.nextUrl.searchParams.get("token");
 
   const [{ total }] = await sql`SELECT total FROM likes_total`;
@@ -18,6 +19,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const sql = neon(process.env.DATABASE_URL!);
   const { token } = await req.json();
   if (!token) return NextResponse.json({ error: "No token" }, { status: 400 });
 
