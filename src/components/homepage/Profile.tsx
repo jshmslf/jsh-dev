@@ -47,13 +47,8 @@ export function Profile() {
         where I build web solutions that help global teams establish their digital identity. And also a graphic artist. Currently focusing on ML for expanding my capabilities.
       </p>
 
-      <div style={{ display: "flex", gap: "12px" }} className="profile-btn-group">
-        <a
-          href="https://github.com/joshuaverceles"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="profile-btn"
-        >
+      <div style={{ display: "flex", gap: "12px", alignItems: "center" }} className="profile-btn-group">
+        <a href="https://github.com/jshmslf" target="_blank" rel="noopener noreferrer" className="profile-btn">
           <GithubIcon />
           GitHub
         </a>
@@ -63,7 +58,22 @@ export function Profile() {
           Send Email
         </button>
 
-        <a href="/about" className="profile-btn">
+        <a href="/art" className="profile-btn">
+          Art Portfolio
+        </a>
+
+        <a
+          href="/about"
+          style={{
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: "0.875rem",
+            color: "var(--muted-foreground)",
+            textDecoration: "none",
+            transition: "color 0.2s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--foreground)" )}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted-foreground)")}
+        >
           More about me →
         </a>
       </div>

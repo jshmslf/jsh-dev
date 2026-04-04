@@ -24,18 +24,14 @@ function getToken(): string {
   return token;
 }
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-}
-
+interface Particle { id: number; x: number; y: number; }
 let pid = 0;
 
 export function LikesCard() {
   const [displayTotal, setDisplayTotal] = useState<number | null>(null);
-  const [myCount, setMyCount] = useState<number>(0);
+  const [myCount, setMyCount] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [particles, setParticles] = useState<Particle[]>([]);
   const tokenRef = useRef<string>("");
   const totalAreaRef = useRef<HTMLDivElement>(null);
@@ -45,12 +41,14 @@ export function LikesCard() {
     fetch(`/api/likes?token=${tokenRef.current}`)
       .then((r) => r.json())
       .then((d) => {
-        if (d.error) return;
-        setDisplayTotal(d.total);
-        setMyCount(d.myCount);
-        if (d.myCount > 0) setLiked(true);
+        if (!d.error) {
+          setDisplayTotal(d.total);
+          setMyCount(d.myCount);
+          if (d.myCount > 0) setLiked(true);
+        }
+        setLoading(false);
       })
-      .catch(() => setDisplayTotal(0));
+      .catch(() => { setDisplayTotal(0); setLoading(false); });
   }, []);
 
   async function handleLike() {
@@ -58,18 +56,11 @@ export function LikesCard() {
     setMyCount((c) => c + 1);
     setDisplayTotal((t) => (t !== null ? t + 1 : t));
 
-    // Spawn single particle at random position in total area
     if (totalAreaRef.current) {
       const rect = totalAreaRef.current.getBoundingClientRect();
-      const newParticle: Particle = {
-        id: pid++,
-        x: Math.random() * (rect.width - 20),
-        y: Math.random() * (rect.height - 10),
-      };
-      setParticles((p) => [...p, newParticle]);
-      setTimeout(() => {
-        setParticles((p) => p.filter((pt) => pt.id !== newParticle.id));
-      }, 800);
+      const p: Particle = { id: pid++, x: Math.random() * (rect.width - 20), y: Math.random() * (rect.height - 10) };
+      setParticles((prev) => [...prev, p]);
+      setTimeout(() => setParticles((prev) => prev.filter((pt) => pt.id !== p.id)), 800);
     }
 
     await fetch("/api/likes", {
@@ -91,9 +82,7 @@ export function LikesCard() {
           0%   { opacity: 1; transform: translateY(0) scale(1); }
           100% { opacity: 0; transform: translateY(-40px) scale(0.7); }
         }
-        .like-total {
-          animation: total-bump 0.3s ease;
-        }
+        .like-total { animation: total-bump 0.3s ease; }
         .particle {
           position: absolute;
           font-family: var(--font-geist-mono);
@@ -106,41 +95,38 @@ export function LikesCard() {
       `}</style>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", padding: "8px 0" }}>
+        {loading ? (
+          <>
+            <div className="skeleton" style={{ height: "2.5rem", width: "80px", borderRadius: "var(--ui-radius)" }} />
+            <div className="skeleton" style={{ height: "38px", width: "100%", borderRadius: "var(--ui-radius)" }} />
+            <div className="skeleton" style={{ height: "14px", width: "60%", borderRadius: "var(--ui-radius)" }} />
+          </>
+        ) : (
+          <>
+            <div ref={totalAreaRef} style={{ position: "relative", textAlign: "center", width: "100%", minHeight: "48px" }}>
+              <p
+                key={displayTotal}
+                className="like-total"
+                style={{ fontFamily: "var(--font-geist-mono)", fontSize: "2.5rem", fontWeight: 700, color: "var(--foreground)", margin: 0, lineHeight: 1 }}
+              >
+                {displayTotal !== null ? displayTotal.toLocaleString() : "0"}
+              </p>
+              {particles.map((p) => (
+                <span key={p.id} className="particle" style={{ left: p.x, top: p.y }}>+1</span>
+              ))}
+            </div>
 
-        {/* Total with particle area */}
-        <div ref={totalAreaRef} style={{ position: "relative", textAlign: "center", width: "100%", minHeight: "48px" }}>
-          <p
-            key={displayTotal}
-            className="like-total"
-            style={{ fontFamily: "var(--font-geist-mono)", fontSize: "2.5rem", fontWeight: 700, color: "var(--foreground)", margin: 0, lineHeight: 1 }}
-          >
-            {displayTotal !== null ? displayTotal.toLocaleString() : (
-              <span className="skeleton" style={{ display: "inline-block", width: "80px", height: "2.5rem", borderRadius: "var(--ui-radius)" }} />
-            )}
-          </p>
-          {particles.map((p) => (
-            <span
-              key={p.id}
-              className="particle"
-              style={{ left: p.x, top: p.y }}
-            >
-              +1
-            </span>
-          ))}
-        </div>
+            <button className="profile-btn" onClick={handleLike} style={{ width: "100%", justifyContent: "center" }}>
+              Tap me
+            </button>
 
-        {/* Button */}
-        <button className="profile-btn" onClick={handleLike} style={{ width: "100%", justifyContent: "center" }}>
-          Tap me
-        </button>
-
-        {/* Personal count */}
-        <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.75rem", color: "var(--muted-foreground)", margin: 0 }}>
-          you&apos;ve tapped{" "}
-          <span style={{ color: "var(--primary)", fontWeight: 600 }}>{myCount}</span>{" "}
-          {myCount === 1 ? "time" : "times"}
-        </p>
-
+            <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.75rem", color: "var(--muted-foreground)", margin: 0 }}>
+              you&apos;ve tapped{" "}
+              <span style={{ color: "var(--primary)", fontWeight: 600 }}>{myCount}</span>{" "}
+              {myCount === 1 ? "time" : "times"}
+            </p>
+          </>
+        )}
       </div>
     </Card>
   );

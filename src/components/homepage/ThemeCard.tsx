@@ -12,10 +12,14 @@ export function ThemeCard() {
   const [radius, setRadius] = useState(THEME_DEFAULTS.radius);
 
   useEffect(() => {
-    const cardRadius = THEME_DEFAULTS.radius === "999px" ? "24px" : THEME_DEFAULTS.radius;
+    const savedAccent = localStorage.getItem("accent") || THEME_DEFAULTS.accent;
+    const savedRadius = localStorage.getItem("radius") || THEME_DEFAULTS.radius;
+    const cardRadius = savedRadius === "999px" ? "24px" : savedRadius;
+
+    setRadius(savedRadius);
+    document.documentElement.style.setProperty("--primary", savedAccent);
     document.documentElement.style.setProperty("--card-radius", cardRadius);
-    document.documentElement.style.setProperty("--ui-radius", THEME_DEFAULTS.radius);
-    document.documentElement.style.setProperty("--primary", THEME_DEFAULTS.accent);
+    document.documentElement.style.setProperty("--ui-radius", savedRadius);
   }, []);
 
   function applyRadius(value: string) {
@@ -23,6 +27,7 @@ export function ThemeCard() {
     const cardRadius = value === "999px" ? "24px" : value;
     document.documentElement.style.setProperty("--card-radius", cardRadius);
     document.documentElement.style.setProperty("--ui-radius", value);
+    localStorage.setItem("radius", value);
   }
 
   return (
