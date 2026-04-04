@@ -140,6 +140,22 @@
   border-radius: var(--ui-radius);
 }
 
+.content-grid {
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-btn-group {
+    flex-wrap: wrap;
+  }
+}
+
 .content-wrapper {
   max-width: 1000px;
   margin: 0 auto;

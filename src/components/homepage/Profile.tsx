@@ -47,7 +47,7 @@ export function Profile() {
         where I build web solutions that help global teams establish their digital identity. And also a graphic artist. Currently focusing on ML for expanding my capabilities.
       </p>
 
-      <div style={{ display: "flex", gap: "12px" }}>
+      <div style={{ display: "flex", gap: "12px" }} className="profile-btn-group">
         <a
           href="https://github.com/joshuaverceles"
           target="_blank"

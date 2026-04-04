@@ -8,14 +8,7 @@ import { LikesCard } from "./LikesCard";
 
 export function ContentGrid() {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "65fr 35fr",
-        gap: "16px",
-        alignItems: "start",
-      }}
-    >
+    <div className="content-grid">
       {/* Left column */}
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <TechStackCard />
