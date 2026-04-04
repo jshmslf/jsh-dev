@@ -45,10 +45,12 @@ export function LikesCard() {
     fetch(`/api/likes?token=${tokenRef.current}`)
       .then((r) => r.json())
       .then((d) => {
+        if (d.error) return;
         setDisplayTotal(d.total);
         setMyCount(d.myCount);
         if (d.myCount > 0) setLiked(true);
-      });
+      })
+      .catch(() => setDisplayTotal(0));
   }, []);
 
   async function handleLike() {
