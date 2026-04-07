@@ -1,0 +1,154 @@
+@use 'art-variables' as *;
+
+// SVG tile: 120x120px
+// - grid lines at 40% accent opacity
+// - full '+' at all 4 corners (100% accent)
+// - dots r=1 at center + 4 edge midpoints
+$svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3C!-- grid lines 40%25 --%3E%3Crect x='0' y='0' width='120' height='1' fill='rgba(29,185,84,0.15)'/%3E%3Crect x='0' y='0' width='1' height='120' fill='rgba(29,185,84,0.15)'/%3E%3C!-- plus: top-left (0,0) --%3E%3Crect x='-4' y='0' width='9' height='1' fill='%231DB954'/%3E%3Crect x='0' y='-4' width='1' height='9' fill='%231DB954'/%3E%3C!-- plus: top-right (120,0) --%3E%3Crect x='116' y='0' width='9' height='1' fill='%231DB954'/%3E%3Crect x='120' y='-4' width='1' height='9' fill='%231DB954'/%3E%3C!-- plus: bottom-left (0,120) --%3E%3Crect x='-4' y='120' width='9' height='1' fill='%231DB954'/%3E%3Crect x='0' y='116' width='1' height='9' fill='%231DB954'/%3E%3C!-- plus: bottom-right (120,120) --%3E%3Crect x='116' y='120' width='9' height='1' fill='%231DB954'/%3E%3Crect x='120' y='116' width='1' height='9' fill='%231DB954'/%3E%3C!-- dot: center (60,60) --%3E%3Ccircle cx='60' cy='60' r='1' fill='%231DB954'/%3E%3C!-- dot: mid-top (60,0) --%3E%3Ccircle cx='60' cy='0' r='1' fill='%231DB954'/%3E%3C!-- dot: mid-bottom (60,120) --%3E%3Ccircle cx='60' cy='120' r='1' fill='%231DB954'/%3E%3C!-- dot: mid-left (0,60) --%3E%3Ccircle cx='0' cy='60' r='1' fill='%231DB954'/%3E%3C!-- dot: mid-right (120,60) --%3E%3Ccircle cx='120' cy='60' r='1' fill='%231DB954'/%3E%3C/svg%3E");
+
+.art {
+    min-height: 100vh;
+    background: $bg;
+    color: $text;
+    font-family: "Geist", sans-serif;
+    position: relative;
+
+    &__bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image: $svg;
+        background-repeat: repeat;
+        background-size: 120px 120px;
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    }
+
+    &__content {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 2rem;
+    }
+
+    &__back {
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 0.875rem;
+        font-family: "Geist Mono", monospace;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $accent;
+        }
+    }
+
+    &__nav-name {
+        font-family: "Geist Mono", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        opacity: 0.4;
+        text-transform: uppercase;
+    }
+
+    &__hero {
+        padding: 6rem 2rem 4rem;
+    }
+
+    &__hero-sub {
+        font-family: "Geist Mono", monospace;
+        font-size: 0.75rem;
+        text-align: center;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: $accent;
+        margin-bottom: 1rem;
+    }
+
+    &__hero-title {
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-family: "Geist Mono", monospace;
+        font-weight: 800;
+        text-align: center;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+    }
+
+    &__gallery-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    &__coming-soon {
+        position: absolute;
+        color: white;
+        left: 10px;
+        top: 0.4rem;
+        font-family: "Geist Mono", monospace;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        z-index: 2;
+    }
+
+    &__brutalism-card {
+        background: $accent;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.25rem;
+        font-family: "Geist Mono", monospace;
+        clip-path: polygon(16rem 0, 13rem 2.5rem, 0 2.5rem, 0 calc(100% - 2rem), 2rem 100%, calc(100% - 14rem) 100%, calc(100% - 12rem) calc(100% - 2rem), 100% calc(100% - 2rem), 100% 2rem, calc(100% - 2rem) 0);
+    }
+
+    &__brutalism-card-title {
+        font-size: clamp(1.25rem, 3vw, 2.3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: $bg;
+    }
+
+    &__brutalism-card-body {
+        font-size: 0.875rem;
+        line-height: 1.7;
+        color: $bg;
+        max-width: 480px;
+    }
+
+    &__brutalism-card-footer {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        color: $bg;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        padding-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        &__nav {
+            padding: 1.25rem;
+        }
+
+        &__hero {
+            padding: 3rem 1.25rem 2rem;
+        }
+
+        &__gallery {
+            padding: 1.25rem;
+        }
+    }
+}

@@ -3,9 +3,9 @@ import "../styles/Profile.scss";
 import checkBadge from "../assets/check-badge.png"
 import pfp from "../assets/pfp.jpg"
 import pfpDark from "../assets/pfp-dark.jpg"
-import {  HiOutlineLocationMarker } from "react-icons/hi";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdMailOutline } from "react-icons/md";
-// import { PiPolygon } from "react-icons/pi";
+import { PiPolygon } from "react-icons/pi";
 import { LuGithub } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import EmailModal from "./EmailModal";
@@ -27,7 +27,7 @@ const Profile = () => {
       attributeFilter: ["data-theme"],
     });
 
-    return() => observer.disconnect();
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -40,7 +40,7 @@ const Profile = () => {
         <div className="info-group name-toggle">
           <div className="name-badge">
             <h1 className="text-3xl">Joshua Verceles</h1>
-            <img src={checkBadge} alt="Verified" className="verified-badge"/>
+            <img src={checkBadge} alt="Verified" className="verified-badge" />
           </div>
           <ThemeSwitch />
         </div>
@@ -71,12 +71,10 @@ const Profile = () => {
             <MdMailOutline />
             Send Email
           </button>
-          {/* <button className="btn portfolio hover-translate">
-            <div>
-              <PiPolygon />
-              Art Portfolio
-            </div>
-          </button> */}
+          <a href="/art-portfolio" className="btn portfolio hover-translate">
+            <PiPolygon />
+            Art Portfolio
+          </a>
         </div>
       </div>
       <EmailModal
