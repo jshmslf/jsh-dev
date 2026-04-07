@@ -6,6 +6,7 @@ import { RowGrid } from "@/components/homepage/RowGrid";
 import { SocialsCard } from "@/components/homepage/SocialsCard";
 import { ThemeCard } from "@/components/homepage/ThemeCard";
 import AnimatedContent from "@/components/AnimatedContent";
+import { SpotifyCard } from "@/components/homepage/SpotifyCard";
 
 export default function HomePage() {
   return (
@@ -19,23 +20,24 @@ export default function HomePage() {
       }}
     >
       <AnimatedContent
-  distance={100}
-  direction="vertical"
-  reverse={false}
-  duration={0.8}
-  ease="power3.out"
-  initialOpacity={0}
-  animateOpacity
-  scale={1}
-  threshold={0.1}
-  delay={0}
+        distance={100}
+        direction="vertical"
+        reverse={false}
+        duration={0.8}
+        ease="power3.out"
+        initialOpacity={0}
+        animateOpacity
+        scale={1}
+        threshold={0.1}
+        delay={0}
       >
         
       <Profile />
 </AnimatedContent>
       <ContentGrid />
-      <RowGrid columns={2} rowHeight="auto" gap="16px">
+      <RowGrid columns={3} rowHeight="auto" gap="16px">
         <SocialsCard />
+        <SpotifyCard />
         <ThemeCard />
       </RowGrid>
     </main>

@@ -151,6 +151,61 @@
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
 }
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+.tooltip-box {
+  position: absolute;
+  background: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-geist-mono);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: var(--ui-radius);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 50;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.tooltip-wrapper:hover .tooltip-box {
+  opacity: 1;
+}
+.tooltip-top {
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+.tooltip-wrapper:hover .tooltip-top {
+  transform: translateX(-50%) translateY(0);
+}
+.tooltip-bottom {
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+.tooltip-wrapper:hover .tooltip-bottom {
+  transform: translateX(-50%) translateY(0);
+}
+.tooltip-left {
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+}
+.tooltip-wrapper:hover .tooltip-left {
+  transform: translateY(-50%) translateX(0);
+}
+.tooltip-right {
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+.tooltip-wrapper:hover .tooltip-right {
+  transform: translateY(-50%) translateX(0);
+}
+
 .skeleton {
   background: linear-gradient(90deg, var(--muted) 25%, var(--border) 50%, var(--muted) 75%);
   background-size: 800px 100%;

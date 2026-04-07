@@ -7,14 +7,11 @@ export const THEME_DEFAULTS = {
 export const ACCENT_PRESETS = [
   { name: "Dodger", value: "#005A9C" },
   { name: "Spotify", value: "#1DB954" },
-  { name: "Sage",    value: "#a8c5a0" },
   { name: "Blush",   value: "#f2a7b0" },
   { name: "Sky",     value: "#a0c4e8" },
   { name: "Peach",   value: "#f7c59f" },
   { name: "Lilac",   value: "#c3aed6" },
-  { name: "Mint",    value: "#a0e4c8" },
   { name: "Butter",  value: "#f5e6a3" },
-  { name: "Rose",    value: "#e8a0b4" },
 ];
 
 export const RADIUS_PRESETS = [

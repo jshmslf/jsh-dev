@@ -33,7 +33,7 @@ export function SocialsCard() {
   const { open } = useContact();
   return (
     <Card title="Socials">
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px", height: "100%" }}>
         {SOCIALS.map((social) => {
           const isEmail = social.url.startsWith("mailto");
           return isEmail ? (
@@ -41,7 +41,7 @@ export function SocialsCard() {
               key={social.title}
               onClick={open}
               className="profile-btn"
-              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}
             >
               {icons[social.title]}
               <span>{social.title}</span>
@@ -53,7 +53,7 @@ export function SocialsCard() {
               target="_blank"
               rel="noopener noreferrer"
               className="profile-btn"
-              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1 }}
             >
               {icons[social.title]}
               <span>{social.title}</span>

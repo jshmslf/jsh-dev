@@ -34,11 +34,11 @@ export function ThemeCard() {
 
   return (
     <Card title="Theme">
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
 
         {/* Mode */}
         <div>
-          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Mode
           </p>
           <div
@@ -73,7 +73,7 @@ export function ThemeCard() {
 
         {/* Accent */}
         <div>
-          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Accent
           </p>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
@@ -104,7 +104,7 @@ export function ThemeCard() {
 
         {/* Border Radius */}
         <div>
-          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             Radius
           </p>
           <div style={{ display: "flex", gap: "6px", justifyContent: "space-between" }}>
