@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, FormEvent } from "react";
+import emailjs from "@emailjs/browser";
 
 const ContactContext = createContext<{ open: () => void } | null>(null);
 
@@ -65,10 +66,23 @@ function ContactModalInner({ onClose }: { onClose: () => void }) {
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
 
     setStatus("loading");
-    // TODO: replace with real API call
-    await new Promise((r) => setTimeout(r, 1200));
-    // Simulate success (change to "error" to test error state)
-    setStatus("success");
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+        {
+          from_name: fields.name,
+          from_email: fields.email,
+          contact: fields.contact,
+          subject: fields.subject,
+          message: fields.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (

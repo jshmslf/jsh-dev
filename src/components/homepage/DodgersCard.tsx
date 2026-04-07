@@ -145,7 +145,7 @@ export function DodgersCard() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 {schedule.map((g, i) => (
-                  <div key={i}>
+                  <div key={i} className={i > 0 ? "dodgers-game-extra" : ""}>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                       {g.rivalId && <Image src={`https://www.mlbstatic.com/team-logos/${g.rivalId}.svg`} width={16} height={16} style={{ height: "auto" }} alt={g.opponent} />}
                       <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.75rem", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>

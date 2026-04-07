@@ -184,6 +184,9 @@
   .nickname {
     display: none;
   }
+  .dodgers-game-extra {
+    display: none;
+  }
 }
 
 .row-grid {
