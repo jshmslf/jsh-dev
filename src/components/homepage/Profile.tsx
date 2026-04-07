@@ -11,7 +11,7 @@ const GithubIcon = () => (
 export function Profile() {
   const { open } = useContact();
   return (
-    <section style={{ display: "flex", flexDirection: "column", gap: "20px", position: "relative" }}>
+    <section className="profile-section" style={{ display: "flex", flexDirection: "column", gap: "20px", position: "relative" }}>
 
       <h1
         style={{

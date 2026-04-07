@@ -55,7 +55,7 @@ export const SOCIALS = [
 ];
 
 export const TECH_STACK = {
-  frontend: ["Next.js", "React", "TypeScript", "Angular", "Tailwind CSS"],
+  frontend: ["Angular", "Next.js", "TypeScript", "React Native", "Tailwind CSS"],
   backend: ["Node.js", "Python", "FastAPI", "PostgreSQL", "Redis"],
   devTools: ["Git", "Docker", "Linux", "Figma", "VS Code"],
 };

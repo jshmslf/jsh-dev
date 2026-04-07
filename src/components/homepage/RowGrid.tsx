@@ -1,6 +1,4 @@
 import { ReactNode } from "react";
-import { SocialsCard } from "./SocialsCard";
-import { ThemeCard } from "./ThemeCard";
 
 interface RowGridProps {
   columns: number;
@@ -9,19 +7,17 @@ interface RowGridProps {
   gap?: string;
 }
 
-export function RowGrid({ columns, rowHeight = "300px", gap = "16px" }: RowGridProps) {
+export function RowGrid({ columns, children, rowHeight = "auto", gap = "16px" }: RowGridProps) {
   return (
     <div
+      className="row-grid"
       style={{
-        display: "grid",
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gridAutoRows: rowHeight === "auto" ? "auto" : rowHeight,
+        gridAutoRows: rowHeight,
         gap,
-        width: "100%",
       }}
     >
-      <SocialsCard/>
-      <ThemeCard />
+      {children}
     </div>
   );
 }

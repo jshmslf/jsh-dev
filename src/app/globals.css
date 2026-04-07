@@ -172,6 +172,29 @@
   .profile-btn-group {
     flex-wrap: wrap;
   }
+  .row-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-section h1 {
+    font-size: 1.75rem !important;
+  }
+  .profile-section p {
+    max-width: 100% !important;
+  }
+  .nickname {
+    display: none;
+  }
+}
+
+.row-grid {
+  display: grid;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .row-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .content-wrapper {
