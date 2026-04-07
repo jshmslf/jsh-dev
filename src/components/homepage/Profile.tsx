@@ -1,5 +1,5 @@
 "use client";
-import { Mail } from "lucide-react";
+import { Mail, Palette } from "lucide-react";
 import { useContact } from "@/components/ContactModal";
 
 const GithubIcon = () => (
@@ -48,7 +48,7 @@ export function Profile() {
       </p>
 
       <div style={{ display: "flex", gap: "12px", alignItems: "center" }} className="profile-btn-group">
-        <a href="https://github.com/jshmslf" target="_blank" rel="noopener noreferrer" className="profile-btn">
+        <a href="https://github.com/jshmslf" target="_blank" rel="noopener noreferrer" className="profile-btn" style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}>
           <GithubIcon />
           GitHub
         </a>
@@ -59,6 +59,7 @@ export function Profile() {
         </button>
 
         <a href="/art" className="profile-btn">
+          <Palette size={16} />
           Art Portfolio
         </a>
 

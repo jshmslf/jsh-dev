@@ -1,10 +1,10 @@
 import { TechStackCard } from "./TechStackCard";
-import { ThemeCard } from "./ThemeCard";
 import { ExperienceCard } from "./ExperienceCard";
 import { ProjectsCard } from "./ProjectsCard";
-import { SocialsCard } from "./SocialsCard";
 import { LocationCard } from "./LocationCard";
 import { LikesCard } from "./LikesCard";
+import { DodgersCard } from "./DodgersCard";
+import { HireMeCard } from "./HireMeCard";
 
 export function ContentGrid() {
   return (
@@ -13,15 +13,15 @@ export function ContentGrid() {
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <TechStackCard />
         <ProjectsCard />
+        <DodgersCard />
       </div>
 
       {/* Right column */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignSelf: "stretch" }}>
         <ExperienceCard />
+        <HireMeCard />
         <LocationCard />
         <LikesCard />
-        <SocialsCard />
-        <ThemeCard />
       </div>
     </div>
   );

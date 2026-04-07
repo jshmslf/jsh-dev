@@ -1,10 +1,11 @@
 export const THEME_DEFAULTS = {
-  accent: "#1DB954",  // Spotify green — any hex from ACCENT_PRESETS
+  accent: "#005A9C",  // Dodger blue — any hex from ACCENT_PRESETS
   radius: "0px",      // "0px" | "6px" | "14px" | "20px" | "999px"
   mode: "dark",      // "light" | "dark"
 };
 
 export const ACCENT_PRESETS = [
+  { name: "Dodger", value: "#005A9C" },
   { name: "Spotify", value: "#1DB954" },
   { name: "Sage",    value: "#a8c5a0" },
   { name: "Blush",   value: "#f2a7b0" },

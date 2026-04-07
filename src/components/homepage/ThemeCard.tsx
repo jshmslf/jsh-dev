@@ -5,18 +5,20 @@ import { useAccent, ACCENT_PRESETS } from "@/hooks/useAccent";
 import { useTheme } from "@/hooks/useTheme";
 import { Card } from "./Card";
 import { THEME_DEFAULTS, RADIUS_PRESETS } from "@/lib/config";
+import { getExpiring, setExpiring } from "@/lib/storage";
 
 export function ThemeCard() {
   const { accent, applyAccent } = useAccent();
   const { isDark, toggle } = useTheme();
-  const [radius, setRadius] = useState(THEME_DEFAULTS.radius);
+  const [radius, setRadius] = useState(() => {
+    if (typeof window === "undefined") return THEME_DEFAULTS.radius;
+    return getExpiring("radius") || THEME_DEFAULTS.radius;
+  });
 
   useEffect(() => {
-    const savedAccent = localStorage.getItem("accent") || THEME_DEFAULTS.accent;
-    const savedRadius = localStorage.getItem("radius") || THEME_DEFAULTS.radius;
+    const savedAccent = getExpiring("accent") || THEME_DEFAULTS.accent;
+    const savedRadius = getExpiring("radius") || THEME_DEFAULTS.radius;
     const cardRadius = savedRadius === "999px" ? "24px" : savedRadius;
-
-    setRadius(savedRadius);
     document.documentElement.style.setProperty("--primary", savedAccent);
     document.documentElement.style.setProperty("--card-radius", cardRadius);
     document.documentElement.style.setProperty("--ui-radius", savedRadius);
@@ -27,7 +29,7 @@ export function ThemeCard() {
     const cardRadius = value === "999px" ? "24px" : value;
     document.documentElement.style.setProperty("--card-radius", cardRadius);
     document.documentElement.style.setProperty("--ui-radius", value);
-    localStorage.setItem("radius", value);
+    setExpiring("radius", value);
   }
 
   return (

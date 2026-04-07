@@ -120,6 +120,8 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
   }
   body {
     @apply bg-background text-foreground;
@@ -127,6 +129,22 @@
   html {
     @apply font-sans;
   }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 @keyframes shimmer {
@@ -144,7 +162,7 @@
   display: grid;
   grid-template-columns: 65fr 35fr;
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (max-width: 640px) {
