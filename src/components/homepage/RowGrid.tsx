@@ -1,18 +1,19 @@
-import { ReactNode } from "react";
+import { ReactNode, Children } from "react";
 
 interface RowGridProps {
-  columns: number;
   children: ReactNode;
   rowHeight?: string;
   gap?: string;
 }
 
-export function RowGrid({ columns, children, rowHeight = "auto", gap = "16px" }: RowGridProps) {
+export function RowGrid({ children, rowHeight = "auto", gap = "16px" }: RowGridProps) {
+  const count = Children.count(children);
+
   return (
     <div
       className="row-grid"
       style={{
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gridTemplateColumns: `repeat(${count}, 1fr)`,
         gridAutoRows: rowHeight,
         gap,
       }}

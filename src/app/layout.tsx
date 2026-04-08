@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { THEME_DEFAULTS } from "@/lib/config";
 import { ContactProvider } from "@/components/ContactModal";
 import { Analytics } from "@vercel/analytics/next";
+import { JsonLd } from "@/components/JsonLd";
 
 const geistMonoHeading = Geist_Mono({subsets:['latin'],variable:'--font-heading'});
 
@@ -19,8 +20,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Joshua Verceles - Software Engineer",
-  description: "Full-stack software engineer specializing in Web Developing and Python. Building modern web applications, mobile apps, and leading developer communities.",
+  metadataBase: new URL("https://jshmslf.is-a.dev"),
+  title: {
+    default: "Joshua Verceles — Software Engineer",
+    template: "%s | Joshua Verceles",
+  },
+  description: "Software Engineer at Mayon Capital. Building web solutions, graphic art on the side. Based in Pangasinan, Philippines.",
+  keywords: ["Joshua Verceles", "jshmslf", "Software Engineer", "Full Stack Developer", "Next.js", "TypeScript", "Python", "Pangasinan", "Philippines"],
+  authors: [{ name: "Joshua Verceles", url: "https://jshmslf.is-a.dev" }],
+  creator: "Joshua Verceles",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://jshmslf.is-a.dev",
+    siteName: "Joshua Verceles",
+    title: "Joshua Verceles — Software Engineer",
+    description: "Software Engineer at Mayon Capital. Building web solutions, graphic art on the side. Based in Pangasinan, Philippines.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Joshua Verceles" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Joshua Verceles — Software Engineer",
+    description: "Software Engineer at Mayon Capital. Building web solutions, graphic art on the side.",
+    creator: "@jshmslf",
+    images: ["/og.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  alternates: {
+    canonical: "https://jshmslf.is-a.dev",
+  },
 };
 
 export default function RootLayout({
@@ -35,6 +67,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <JsonLd />
         <script dangerouslySetInnerHTML={{ __html: `(function(){function g(k){try{var r=localStorage.getItem(k);if(!r)return null;var p=JSON.parse(r);if(Date.now()>p.expiry){localStorage.removeItem(k);return null;}return p.value;}catch(e){return null;}}var t=g('theme');if(t==='dark'||(!t&&'${THEME_DEFAULTS.mode}'==='dark'))document.documentElement.classList.add('dark');var a=g('accent');if(a)document.documentElement.style.setProperty('--primary',a);var r=g('radius');if(r){document.documentElement.style.setProperty('--ui-radius',r);document.documentElement.style.setProperty('--card-radius',r==='999px'?'24px':r);}})()` }} />
       </head>
       <body className="min-h-full flex flex-col">

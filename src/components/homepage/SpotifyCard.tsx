@@ -32,12 +32,22 @@ export function SpotifyCard() {
       try {
         const res = await fetch("/api/spotify");
         const data = await res.json();
-        if (!cancelled && !data.error && data.title) setTrack(data);
+        if (!cancelled && !data.error && data.title) {
+          setTrack(data);
+        }
       } catch {}
       if (!cancelled) setLoading(false);
     }
     load();
-    const id = setInterval(load, 30_000);
+    // Poll every 30s but only update if we get a valid track
+    const id = setInterval(async () => {
+      if (cancelled) return;
+      try {
+        const res = await fetch("/api/spotify");
+        const data = await res.json();
+        if (!data.error && data.title) setTrack(data);
+      } catch {}
+    }, 30_000);
     return () => { cancelled = true; clearInterval(id); };
   }, []);
 

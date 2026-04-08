@@ -25,6 +25,7 @@ async function getAccessToken(): Promise<string> {
 export async function GET() {
   try {
     const token = await getAccessToken();
+    console.log("[Spotify] token acquired:", !!token);
 
     const [nowRes, recentRes] = await Promise.all([
       fetch("https://api.spotify.com/v1/me/player/currently-playing", {
@@ -35,9 +36,13 @@ export async function GET() {
       }),
     ]);
 
-    // Currently playing
+    console.log("[Spotify] now status:", nowRes.status);
+    console.log("[Spotify] recent status:", recentRes.status);
+
+    // Currently playing (200 = playing, 204 = nothing playing)
     if (nowRes.status === 200) {
       const data = await nowRes.json();
+      console.log("[Spotify] now data item:", data?.item?.name);
       if (data?.item) {
         return NextResponse.json({
           isPlaying: data.is_playing,
@@ -54,6 +59,7 @@ export async function GET() {
     // Recently played fallback
     if (recentRes.ok) {
       const data = await recentRes.json();
+      console.log("[Spotify] recent data:", JSON.stringify(data?.items?.[0]?.track?.name));
       const track = data.items?.[0];
       if (track) {
         return NextResponse.json({
