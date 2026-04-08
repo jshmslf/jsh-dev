@@ -31,8 +31,9 @@ export default function HomePage() {
         threshold={0.1}
         delay={0}
       >
-        
-        <Profile />
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "24px" }}>
+          <Profile />
+        </div>
       </AnimatedContent>
 
       <AnimatedContent

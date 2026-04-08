@@ -1,3 +1,17 @@
+export const CERTIFICATES = [
+  { title: "Ethical Hacker", issuer: "Cisco" },
+];
+
+export const BADGES = [
+  {
+    id: "ethical-hacker",
+    name: "Certified Ethical Hacker",
+    image: "/assets/badges/ethical-hacker.png",
+    host: "https://www.credly.com",
+    url: "https://www.credly.com/badges/c60bdddc-d589-4bb6-99d0-e4ea8f23ff35",
+  },
+];
+
 export const THEME_DEFAULTS = {
   accent: "#005A9C",  // Dodger blue — any hex from ACCENT_PRESETS
   radius: "0px",      // "0px" | "6px" | "14px" | "20px" | "999px"
