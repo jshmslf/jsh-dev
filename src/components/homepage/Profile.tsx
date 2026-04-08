@@ -154,7 +154,7 @@ export function Profile() {
             </a>
             <button onClick={open} className="profile-btn">
               <Mail size={16} />
-              Send Email
+              Email
             </button>
             <div ref={moreRef} style={{ position: "relative" }}>
               <button className="profile-btn" onClick={(e) => { e.stopPropagation(); setMoreOpen((v) => !v); }} style={{ gap: "6px" }}>
