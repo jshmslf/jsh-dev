@@ -68,7 +68,7 @@ export function DodgersCard() {
         const games: Game[] = [];
         for (const date of scheduleData.dates || []) {
           for (const game of date.games || []) {
-            if (games.length >= 3) break;
+            if (games.length >= 2) break;
             const isHome = game.teams?.home?.team?.id === TEAM_ID;
             const rivalTeam = isHome ? game.teams?.away?.team : game.teams?.home?.team;
             const opponent = rivalTeam?.name || "TBD";
@@ -77,7 +77,7 @@ export function DodgersCard() {
             const gameDate = new Date(game.officialDate).toLocaleDateString("en-US", { month: "short", day: "numeric" });
             games.push({ date: gameDate, opponent, rivalId, home: isHome, time: gameTime });
           }
-          if (games.length >= 3) break;
+          if (games.length >= 2) break;
         }
         setSchedule(games);
       } catch (e) {
@@ -90,8 +90,16 @@ export function DodgersCard() {
   }, []);
 
   return (
-    <Card title="">
-      <style>{`.dodgers-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}`}</style>
+    <Card title="" style={{ flex: 1 }}>
+      <style>{`
+        .dodgers-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+        .dodgers-stats-row{display:flex;gap:14px;align-items:stretch;}
+        .dodgers-divider{width:1px;background:var(--border);flex-shrink:0;}
+        @media(max-width:640px){
+          .dodgers-stats-row{flex-direction:column;gap:14px;}
+          .dodgers-divider{width:100%;height:1px;}
+        }
+      `}</style>
       <div className="dodgers-header">
         <Image src="https://www.mlbstatic.com/team-logos/119.svg" width={20} height={20} style={{ height: "auto" }} alt="LAD" />
         <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: "1.1rem", fontWeight: 700, color: "var(--foreground)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Los Angeles Dodgers</span>
@@ -103,7 +111,7 @@ export function DodgersCard() {
           <div className="skeleton" style={{ height: "12px", width: "50%", borderRadius: "var(--ui-radius)" }} />
         </div>
       ) : (
-        <div style={{ display: "flex", gap: "14px", alignItems: "stretch" }}>
+        <div className="dodgers-stats-row">
 
           {/* Team Record */}
           <div style={{ flex: 1 }}>
@@ -115,7 +123,7 @@ export function DodgersCard() {
             <p style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.7rem", color: "var(--muted-foreground)", margin: "2px 0 0" }}>{record?.standing || "—"}</p>
           </div>
 
-          <div style={{ width: "1px", background: "var(--border)", flexShrink: 0 }} />
+          <div className="dodgers-divider" />
 
           {/* Ohtani */}
           <div style={{ flex: 1 }}>
@@ -135,7 +143,7 @@ export function DodgersCard() {
             </div>
           </div>
 
-          <div style={{ width: "1px", background: "var(--border)", flexShrink: 0 }} />
+          <div className="dodgers-divider" />
 
           {/* Schedule */}
           <div style={{ flex: 1 }}>

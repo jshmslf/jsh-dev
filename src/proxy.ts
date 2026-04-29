@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 const PUBLIC_API_ROUTES = [
   "/api/likes",
   "/api/spotify",
+  "/api/testimonial",
+  "/api/testimonial-forms",
 ];
 
 export function proxy(req: NextRequest) {

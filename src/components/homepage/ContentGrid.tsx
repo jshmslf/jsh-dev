@@ -10,7 +10,7 @@ export function ContentGrid() {
   return (
     <div className="content-grid">
       {/* Left column */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", height: "100%" }}>
         <TechStackCard />
         <ProjectsCard />
         <DodgersCard />

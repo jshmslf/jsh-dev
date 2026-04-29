@@ -4,6 +4,8 @@ import { useContact } from "@/components/ContactModal";
 import { BadgesSection } from "./BadgesSection";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
+import { SpotifyNote } from "./SpotifyNote";
 
 const GithubIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -16,6 +18,19 @@ export function Profile() {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const [dropPos, setDropPos] = useState({ top: 0, right: 0 });
+  const textRef = useRef<HTMLDivElement>(null);
+  const [avatarSize, setAvatarSize] = useState(96);
+
+  useEffect(() => {
+    if (!textRef.current) return;
+    const update = () => {
+      if (textRef.current) setAvatarSize(textRef.current.offsetHeight);
+    };
+    const ro = new ResizeObserver(update);
+    ro.observe(textRef.current);
+    update();
+    return () => ro.disconnect();
+  }, []);
 
   function updatePos() {
     if (!moreRef.current) return;
@@ -42,6 +57,29 @@ export function Profile() {
   return (
     <>
       <style>{`
+        .profile-header-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 20px;
+          width: 100%;
+        }
+        .profile-header-text {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          flex: 1;
+          min-width: 0;
+        }
+        .profile-avatar {
+          flex-shrink: 0;
+          border-radius: var(--card-radius);
+          overflow: hidden;
+          border: 2px solid var(--border);
+          transition: border-color 0.2s ease, border-radius 0.2s ease;
+        }
+        .profile-avatar:hover {
+          border-color: var(--primary);
+        }
         .profile-desktop-row {
           display: flex;
           align-items: center;
@@ -104,18 +142,34 @@ export function Profile() {
 
       <section className="profile-section" style={{ display: "flex", flexDirection: "column", gap: "20px", position: "relative", width: "100%" }}>
 
-        <h1 style={{ fontFamily: "var(--font-geist-sans)", fontSize: "2.25rem", fontWeight: 700, color: "var(--foreground)", margin: 0, lineHeight: 1.15, display: "flex", alignItems: "center", gap: "12px" }}>
-          <span className="name-wrapper">
-            Joshua <span style={{ color: "var(--primary)" }}>Verceles</span>
-            <span className="nickname">jshmslf</span>
-          </span>
-        </h1>
-
-        <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: "1rem", color: "var(--muted-foreground)", lineHeight: 1.75, maxWidth: "600px", margin: 0 }}>
-          I&apos;m currently working as Software Engineer at{" "}
-          <a href="https://mayoncapital.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--foreground)", textDecoration: "underline" }}>Mayon Capital</a>,
-          where I build web solutions that help global teams establish their digital identity. And also a graphic artist. Currently focusing on ML for expanding my capabilities.
-        </p>
+        <div className="profile-header-row">
+          <div style={{ position: "relative", flexShrink: 0 }}>
+            <SpotifyNote />
+            <div className="profile-avatar" style={{ width: avatarSize, height: avatarSize }}>
+              <Image
+                src="/assets/images/icon-batman.png"
+                alt="Joshua Verceles"
+                width={avatarSize}
+                height={avatarSize}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                priority
+              />
+            </div>
+          </div>
+          <div className="profile-header-text" ref={textRef}>
+            <h1 style={{ fontFamily: "var(--font-geist-sans)", fontSize: "2.25rem", fontWeight: 700, color: "var(--foreground)", margin: 0, lineHeight: 1.15, display: "flex", alignItems: "center", gap: "12px" }}>
+              <span className="name-wrapper">
+                Joshua <span style={{ color: "var(--primary)" }}>Verceles</span>
+                <span className="nickname">jshmslf</span>
+              </span>
+            </h1>
+            <p style={{ fontFamily: "var(--font-geist-sans)", fontSize: "1rem", color: "var(--muted-foreground)", lineHeight: 1.75, maxWidth: "600px", margin: 0 }}>
+              I&apos;m currently working as Software Engineer at{" "}
+              <a href="https://mayoncapital.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--foreground)", textDecoration: "underline" }}>Mayon Capital</a>,
+              where I build web solutions that help global teams establish their digital identity. And also a graphic artist. Currently focusing on ML for expanding my capabilities.
+            </p>
+          </div>
+        </div>
 
         {/* Desktop layout */}
         <div className="profile-desktop-row">
@@ -131,14 +185,6 @@ export function Profile() {
             <a href="/art" className="profile-btn">
               <Palette size={16} />
               Art Portfolio
-            </a>
-            <a
-              href="/about"
-              style={{ fontFamily: "var(--font-geist-sans)", fontSize: "0.875rem", color: "var(--muted-foreground)", textDecoration: "none", transition: "color 0.2s ease" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--foreground)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted-foreground)")}
-            >
-              More about me →
             </a>
           </div>
           <BadgesSection />

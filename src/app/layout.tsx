@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { THEME_DEFAULTS } from "@/lib/config";
 import { ContactProvider } from "@/components/ContactModal";
+import { ThemeInitializer } from "@/components/ThemeInitializer";
+import { AIChatButton } from "@/components/AIChatButton";
 import { Analytics } from "@vercel/analytics/next";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -71,9 +73,11 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `(function(){function g(k){try{var r=localStorage.getItem(k);if(!r)return null;var p=JSON.parse(r);if(Date.now()>p.expiry){localStorage.removeItem(k);return null;}return p.value;}catch(e){return null;}}var t=g('theme');if(t==='dark'||(!t&&'${THEME_DEFAULTS.mode}'==='dark'))document.documentElement.classList.add('dark');var a=g('accent');if(a)document.documentElement.style.setProperty('--primary',a);var r=g('radius');if(r){document.documentElement.style.setProperty('--ui-radius',r);document.documentElement.style.setProperty('--card-radius',r==='999px'?'24px':r);}})()` }} />
       </head>
       <body className="min-h-full flex flex-col">
+        <ThemeInitializer />
         <Analytics/>
         <ContactProvider>
           {children}
+          <AIChatButton />
           <footer className="cursor-default" style={{
             textAlign: "center",
             padding: "24px",

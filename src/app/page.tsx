@@ -13,7 +13,7 @@ export default function HomePage() {
     <main
       className="content-wrapper"
       style={{
-        padding: "34px 24px 20px",
+        padding: "50px 24px 20px",
         display: "flex",
         flexDirection: "column",
         gap: "16px",

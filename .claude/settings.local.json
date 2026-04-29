@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --env-file=.env.local scripts/migrate.mjs)",
+      "Bash(node -e \"const n = require\\('next/package.json'\\); console.log\\(n.version\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -X POST http://localhost:3000/api/testimonial -H \"Content-Type: application/json\" -d '{\"formId\":\"test\",\"name\":\"a\",\"email\":\"a@b.com\",\"comment\":\"hi\",\"stars\":5}')",
+      "Bash(curl -s http://localhost:3000/api/testimonial -X POST -H \"Content-Type: application/json\" -d '{\"formId\":\"test\",\"name\":\"a\",\"email\":\"a@b.com\",\"comment\":\"hi\",\"stars\":5}')",
+      "Bash(curl -s http://localhost:3000/api/likes -X POST -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s http://localhost:3000/api/testimonial)",
+      "Bash(curl -s -X POST http://localhost:3000/api/testimonial -H \"Content-Type: application/json\" -d '{\"formId\":\"test123\",\"name\":\"Joshua\",\"email\":\"test@test.com\",\"comment\":\"Great work!\",\"stars\":5}')",
+      "Bash(curl -s http://localhost:3000/api/testimonial-forms)",
+      "Bash(curl -s \"http://localhost:3000/api/testimonial?formId=doesntexist\")",
+      "Bash(curl -s \"http://localhost:3000/api/testimonial?formId=test123\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/testimonial-forms -H \"Content-Type: application/json\" -d '{\"id\":\"abc123xyz\",\"label\":\"Test Form\"}')",
+      "Bash(curl -s \"http://localhost:3000/api/testimonial?formId=abc123xyz\")",
+      "Bash(curl -s \"http://localhost:3000/api/testimonial\")",
+      "Bash(curl -s \"http://localhost:3000/api/testimonial-forms\")"
+    ]
+  }
+}

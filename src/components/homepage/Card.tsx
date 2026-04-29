@@ -6,9 +6,10 @@ interface CardProps {
   title: string;
   children: ReactNode;
   viewAll?: { label?: string; href: string };
+  style?: React.CSSProperties;
 }
 
-export function Card({ title, children, viewAll }: CardProps) {
+export function Card({ title, children, viewAll, style }: CardProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export function Card({ title, children, viewAll }: CardProps) {
   return (
     <div
       className="card"
-      style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "16px", background: "var(--card)" }}
+      style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "16px", background: "var(--card)", ...style }}
     >
       {!mounted ? (
         <>
