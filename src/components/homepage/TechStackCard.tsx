@@ -1,4 +1,4 @@
-import { TECH_STACK } from "@/lib/config";
+import { TECH_ICONS, TECH_STACK } from "@/lib/config";
 import { Card } from "./Card";
 
 const groups = [
@@ -9,7 +9,7 @@ const groups = [
 
 export function TechStackCard() {
   return (
-    <Card title="Tech Stack">
+    <Card title="Tech Stack" viewAll={{ href: "/stack", label: "view all" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
         {groups.map(({ label, items }) => (
           <div key={label}>
@@ -26,10 +26,13 @@ export function TechStackCard() {
               {label}
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {items.map((item) => (
+              {items.slice(0, 3).map((item) => (
                 <span
                   key={item}
                   style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px",
                     fontFamily: "var(--font-geist-mono)",
                     fontSize: "0.75rem",
                     color: "var(--foreground)",
@@ -39,6 +42,8 @@ export function TechStackCard() {
                     padding: "3px 10px",
                   }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {TECH_ICONS[item] && <img src={TECH_ICONS[item]} alt="" width={14} height={14} style={{ display: "block" }} />}
                   {item}
                 </span>
               ))}

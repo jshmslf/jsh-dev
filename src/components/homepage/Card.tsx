@@ -49,7 +49,7 @@ export function Card({ title, children, viewAll, style }: CardProps) {
                 href={viewAll.href}
                 style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.75rem", color: "var(--primary)", textDecoration: "none" }}
               >
-                {viewAll.label ?? "view all →"}
+                {viewAll.label ?? "view all"}
               </a>
             )}
           </div>

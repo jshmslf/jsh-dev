@@ -5,12 +5,11 @@ const MAX = 4;
 
 export function ProjectsCard() {
   const visible = PROJECTS.slice(0, MAX);
-  const hasMore = PROJECTS.length > MAX;
 
   return (
     <Card
       title="Recent Projects"
-      viewAll={hasMore ? { href: "/projects" } : undefined}
+      viewAll={{ href: "/projects", label: "view all" }}
     >
       <style>{`
         .project-item {

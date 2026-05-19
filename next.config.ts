@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
+  experimental: {
+    optimizePackageImports: ["@tabler/icons-react", "lucide-react"],
+  },
   allowedDevOrigins: ['127.0.0.1'],
   images: {
     remotePatterns: [

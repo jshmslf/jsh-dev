@@ -38,25 +38,57 @@ export const RADIUS_PRESETS = [
 export const PROJECTS = [
   {
     title: "Jointify",
+    slug: "jointify",
     description: "A smart budgeting web app for couples to track joint finances and generate instant financial summaries.",
     link: "developing",
+    images: [] as string[],
+    stack: ["Next.js", "TypeScript", "PostgreSQL"],
   },
   {
     title: "Xtream",
+    slug: "xtream",
     description: "A movie and TV streaming web app featuring personalized AI recommendations and a custom bucket list for tracking watch history.",
     link: "https://xtream-now.vercel.app",
+    images: [] as string[],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
   },
   {
     title: "W",
+    slug: "w",
     description: 'A community-focused social media platform designed as a lightweight "X" clone for private or niche group interactions.',
     link: "https://w-social.vercel.app",
+    images: [] as string[],
+    stack: ["Next.js", "TypeScript", "PostgreSQL"],
   },
   {
     title: "GWAko",
+    slug: "gwako",
     description: "A specialized academic tool for PSU students that calculates GWA based on official university standards to track eligibility for honors and scholarships.",
     link: "https://gwako.onrender.com",
+    images: [] as string[],
+    stack: ["React", "Node.js", "PostgreSQL"],
   },
 ];
+
+const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
+export const TECH_ICONS: Record<string, string> = {
+  "Angular":      `${DEVICON}/angular/angular-original.svg`,
+  "Next.js":      `${DEVICON}/nextjs/nextjs-original.svg`,
+  "TypeScript":   `${DEVICON}/typescript/typescript-original.svg`,
+  "React Native": `${DEVICON}/react/react-original.svg`,
+  "React":        `${DEVICON}/react/react-original.svg`,
+  "Tailwind CSS": `${DEVICON}/tailwindcss/tailwindcss-original.svg`,
+  "Node.js":      `${DEVICON}/nodejs/nodejs-original.svg`,
+  "Python":       `${DEVICON}/python/python-original.svg`,
+  "FastAPI":      `${DEVICON}/fastapi/fastapi-original.svg`,
+  "PostgreSQL":   `${DEVICON}/postgresql/postgresql-original.svg`,
+  "Redis":        `${DEVICON}/redis/redis-original.svg`,
+  "Git":          `${DEVICON}/git/git-original.svg`,
+  "Docker":       `${DEVICON}/docker/docker-original.svg`,
+  "Linux":        `${DEVICON}/linux/linux-original.svg`,
+  "Figma":        `${DEVICON}/figma/figma-original.svg`,
+  "VS Code":      `${DEVICON}/vscode/vscode-original.svg`,
+};
 
 export const SOCIALS = [
   { title: "GitHub", url: "https://github.com/jshmslf" },

@@ -6,7 +6,7 @@ import { THEME_DEFAULTS } from "@/lib/config";
 import { ContactProvider } from "@/components/ContactModal";
 import { ThemeInitializer } from "@/components/ThemeInitializer";
 import { AIChatButton } from "@/components/AIChatButton";
-import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import { JsonLd } from "@/components/JsonLd";
 
 const geistMonoHeading = Geist_Mono({subsets:['latin'],variable:'--font-heading'});
@@ -70,11 +70,15 @@ export default function RootLayout({
     >
       <head>
         <JsonLd />
-        <script dangerouslySetInnerHTML={{ __html: `(function(){function g(k){try{var r=localStorage.getItem(k);if(!r)return null;var p=JSON.parse(r);if(Date.now()>p.expiry){localStorage.removeItem(k);return null;}return p.value;}catch(e){return null;}}var t=g('theme');if(t==='dark'||(!t&&'${THEME_DEFAULTS.mode}'==='dark'))document.documentElement.classList.add('dark');var a=g('accent');if(a)document.documentElement.style.setProperty('--primary',a);var r=g('radius');if(r){document.documentElement.style.setProperty('--ui-radius',r);document.documentElement.style.setProperty('--card-radius',r==='999px'?'24px':r);}})()` }} />
       </head>
       <body className="min-h-full flex flex-col">
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: `(function(){function g(k){try{var r=localStorage.getItem(k);if(!r)return null;var p=JSON.parse(r);if(Date.now()>p.expiry){localStorage.removeItem(k);return null;}return p.value;}catch(e){return null;}}var t=g('theme');if(t==='dark'||(!t&&'${THEME_DEFAULTS.mode}'==='dark'))document.documentElement.classList.add('dark');var a=g('accent');if(a)document.documentElement.style.setProperty('--primary',a);var r=g('radius');if(r){document.documentElement.style.setProperty('--ui-radius',r);document.documentElement.style.setProperty('--card-radius',r==='999px'?'24px':r);}})()` }}
+        />
         <ThemeInitializer />
-        <Analytics/>
+        <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
         <ContactProvider>
           {children}
           <AIChatButton />
