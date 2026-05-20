@@ -42,6 +42,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound();
 
   const isDeveloping = project.link === "developing";
+  const image = project.image;
 
   return (
     <main
@@ -80,48 +81,32 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </a>
       </div>
 
-      <div className="card" style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "20px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
-          <span
+      <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "20px" }}>
+        {image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={image}
+            alt={project.title}
             style={{
-              fontFamily: "var(--font-geist-sans)",
-              fontSize: "1rem",
-              fontWeight: 700,
-              color: "var(--foreground)",
+              width: "100%",
+              height: "auto",
+              display: "block",
+              borderRadius: "var(--ui-radius)",
+              border: "1px solid var(--border)",
             }}
-          >
-            {project.title}
-          </span>
-          {isDeveloping ? (
-            <span
-              style={{
-                fontFamily: "var(--font-geist-mono)",
-                fontSize: "0.65rem",
-                color: "var(--muted-foreground)",
-                background: "var(--muted)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--ui-radius)",
-                padding: "3px 8px",
-              }}
-            >
-              building
-            </span>
-          ) : (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontFamily: "var(--font-geist-mono)",
-                fontSize: "0.75rem",
-                color: "var(--primary)",
-                textDecoration: "none",
-              }}
-            >
-              visit
-            </a>
-          )}
-        </div>
+          />
+        )}
+
+        <span
+          style={{
+            fontFamily: "var(--font-geist-sans)",
+            fontSize: "1rem",
+            fontWeight: 700,
+            color: "var(--foreground)",
+          }}
+        >
+          {project.title}
+        </span>
 
         <p
           style={{
@@ -134,29 +119,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         >
           {project.description}
         </p>
-
-        {project.images.length > 0 && (
-          <style>{`
-            .detail-gallery { display: flex; gap: 10px; flex-wrap: wrap; }
-            .detail-gallery img {
-              flex: 1;
-              min-width: 160px;
-              height: 140px;
-              object-fit: cover;
-              border-radius: var(--ui-radius);
-              border: 1px solid var(--border);
-            }
-          `}</style>
-        )}
-
-        {project.images.length > 0 && (
-          <div className="detail-gallery">
-            {project.images.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={src} alt="" />
-            ))}
-          </div>
-        )}
 
         {project.stack.length > 0 && (
           <div>
@@ -179,6 +141,47 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         )}
+
+        <div style={{ display: "flex", gap: "6px" }}>
+          <a
+            href={isDeveloping ? undefined : project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={isDeveloping}
+            style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: "0.7rem",
+              color: "var(--foreground)",
+              background: "var(--muted)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--ui-radius)",
+              padding: "3px 10px",
+              textDecoration: "none",
+              ...(isDeveloping ? { opacity: 0.35, pointerEvents: "none", cursor: "default" } : {}),
+            }}
+          >
+            visit
+          </a>
+          <a
+            href={project.github || undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={!project.github}
+            style={{
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: "0.7rem",
+              color: "var(--foreground)",
+              background: "var(--muted)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--ui-radius)",
+              padding: "3px 10px",
+              textDecoration: "none",
+              ...(!project.github ? { opacity: 0.35, pointerEvents: "none", cursor: "default" } : {}),
+            }}
+          >
+            source
+          </a>
+        </div>
       </div>
     </main>
   );

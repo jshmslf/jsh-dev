@@ -1,4 +1,5 @@
 import { PROJECTS, TECH_ICONS } from "@/lib/config";
+import Link from "next/link";
 
 function StackChip({ name }: { name: string }) {
   const icon = TECH_ICONS[name];
@@ -9,16 +10,16 @@ function StackChip({ name }: { name: string }) {
         alignItems: "center",
         gap: "5px",
         fontFamily: "var(--font-geist-mono)",
-        fontSize: "0.7rem",
+        fontSize: "0.65rem",
         color: "var(--foreground)",
         background: "var(--muted)",
         border: "1px solid var(--border)",
         borderRadius: "var(--ui-radius)",
-        padding: "3px 8px",
+        padding: "2px 7px",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      {icon && <img src={icon} alt="" width={13} height={13} style={{ display: "block" }} />}
+      {icon && <img src={icon} alt="" width={12} height={12} style={{ display: "block" }} />}
       {name}
     </span>
   );
@@ -28,7 +29,7 @@ export default function ProjectsPage() {
   return (
     <main
       style={{
-        maxWidth: "860px",
+        maxWidth: "960px",
         margin: "0 auto",
         padding: "40px 20px 80px",
         display: "flex",
@@ -49,7 +50,7 @@ export default function ProjectsPage() {
         >
           Projects
         </span>
-        <a
+        <Link
           href="/"
           style={{
             fontFamily: "var(--font-geist-mono)",
@@ -59,161 +60,148 @@ export default function ProjectsPage() {
           }}
         >
           back
-        </a>
+        </Link>
       </div>
 
       <style>{`
         .projects-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(3, 1fr);
           gap: 16px;
         }
-        @media (max-width: 640px) {
+        @media (max-width: 860px) {
+          .projects-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 560px) {
           .projects-grid { grid-template-columns: 1fr; }
         }
         .project-card {
-          position: relative;
           display: flex;
           flex-direction: column;
-          gap: 14px;
-          padding: 20px;
-          cursor: pointer;
+          gap: 12px;
+          padding: 0;
+          overflow: hidden;
           transition: border-color 0.2s ease;
+          text-decoration: none;
         }
-        .project-card:hover {
-          border-color: var(--primary);
+        .project-card:hover { border-color: var(--primary); }
+        .project-thumbnail-wrapper {
+          overflow: hidden;
         }
-        .project-card-cover {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
+        .project-thumbnail {
+          width: 100%;
+          height: 140px;
+          object-fit: cover;
+          display: block;
+          border-bottom: 1px solid var(--border);
+          background: var(--muted);
+          transition: transform 0.35s ease;
         }
-        .project-card-header {
+        .project-card:hover .project-thumbnail {
+          transform: scale(1.06);
+        }
+        .project-thumbnail-placeholder {
+          width: 100%;
+          height: 140px;
+          background: var(--muted);
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .project-card-body {
           position: relative;
           z-index: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 14px 16px 16px;
+          flex: 1;
+        }
+        .project-card-header {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
           gap: 8px;
         }
-        .project-card-body {
-          position: relative;
-          z-index: 1;
-        }
-        .project-visit-link {
-          position: relative;
-          z-index: 1;
-          font-family: var(--font-geist-mono);
-          font-size: 0.7rem;
-          color: var(--primary);
-          text-decoration: none;
-          white-space: nowrap;
-          padding-top: 2px;
-          flex-shrink: 0;
-        }
-        .project-visit-link:hover { text-decoration: underline; }
-        .project-thumbnails {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          gap: 8px;
-        }
-        .project-thumbnail {
-          flex: 1;
-          height: 110px;
-          object-fit: cover;
-          border-radius: var(--ui-radius);
-          border: 1px solid var(--border);
-          background: var(--muted);
-        }
         .project-stack {
-          position: relative;
-          z-index: 1;
           display: flex;
           flex-wrap: wrap;
-          gap: 6px;
+          gap: 5px;
+          margin-top: auto;
         }
       `}</style>
 
       <div className="projects-grid">
         {PROJECTS.map((project) => {
           const isDeveloping = project.link === "developing";
-          const thumbs = project.images.slice(0, 3);
 
           return (
-            <div key={project.slug} className="card project-card">
-              {/* Cover link makes the whole card clickable */}
-              <a href={`/projects/${project.slug}`} className="project-card-cover" aria-label={project.title} />
-
-              <div className="project-card-header">
-                <span
-                  style={{
-                    fontFamily: "var(--font-geist-sans)",
-                    fontSize: "0.95rem",
-                    fontWeight: 700,
-                    color: "var(--foreground)",
-                  }}
-                >
-                  {project.title}
-                </span>
-                {isDeveloping ? (
-                  <span
-                    style={{
-                      fontFamily: "var(--font-geist-mono)",
-                      fontSize: "0.65rem",
-                      color: "var(--muted-foreground)",
-                      background: "var(--muted)",
-                      border: "1px solid var(--border)",
-                      borderRadius: "var(--ui-radius)",
-                      padding: "2px 7px",
-                      flexShrink: 0,
-                      paddingTop: "3px",
-                    }}
-                  >
-                    building
-                  </span>
+            <a key={project.slug} href={`/projects/${project.slug}`} className="card project-card">
+              <div className="project-thumbnail-wrapper">
+                {project.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={project.image} alt={project.title} className="project-thumbnail" />
                 ) : (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="project-visit-link"
-                  >
-                    visit
-                  </a>
+                  <div className="project-thumbnail-placeholder">
+                    <span style={{ fontFamily: "var(--font-geist-mono)", fontSize: "0.65rem", color: "var(--muted-foreground)" }}>
+                      no preview
+                    </span>
+                  </div>
                 )}
               </div>
 
-              <p
-                className="project-card-body"
-                style={{
-                  fontFamily: "var(--font-geist-sans)",
-                  fontSize: "0.8rem",
-                  color: "var(--muted-foreground)",
-                  lineHeight: 1.6,
-                  margin: 0,
-                }}
-              >
-                {project.description}
-              </p>
-
-              {thumbs.length > 0 && (
-                <div className="project-thumbnails">
-                  {thumbs.map((src, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img key={i} src={src} alt="" className="project-thumbnail" />
-                  ))}
+              <div className="project-card-body">
+                <div className="project-card-header">
+                  <span
+                    style={{
+                      fontFamily: "var(--font-geist-sans)",
+                      fontSize: "0.9rem",
+                      fontWeight: 700,
+                      color: "var(--foreground)",
+                    }}
+                  >
+                    {project.title}
+                  </span>
+                  {isDeveloping && (
+                    <span
+                      style={{
+                        fontFamily: "var(--font-geist-mono)",
+                        fontSize: "0.6rem",
+                        color: "var(--muted-foreground)",
+                        background: "var(--muted)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "var(--ui-radius)",
+                        padding: "2px 6px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      building
+                    </span>
+                  )}
                 </div>
-              )}
 
-              {project.stack.length > 0 && (
-                <div className="project-stack">
-                  {project.stack.map((tech) => (
-                    <StackChip key={tech} name={tech} />
-                  ))}
-                </div>
-              )}
-            </div>
+                <p
+                  style={{
+                    fontFamily: "var(--font-geist-sans)",
+                    fontSize: "0.775rem",
+                    color: "var(--muted-foreground)",
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
+                  {project.description}
+                </p>
+
+                {project.stack.length > 0 && (
+                  <div className="project-stack">
+                    {project.stack.map((tech) => (
+                      <StackChip key={tech} name={tech} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
           );
         })}
       </div>
