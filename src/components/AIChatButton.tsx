@@ -1,37 +1,59 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import { X, Send, Bot } from "lucide-react";
+
+type Message = { id: string; role: "user" | "assistant"; text: string };
+
+const INITIAL: Message[] = [
+  {
+    id: "greeting",
+    role: "assistant",
+    text: "Hi, I'm Joshua's assist bot, I'm still in developing and only response in a limit range.",
+  },
+];
 
 export function AIChatButton() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>(INITIAL);
+  const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-    initialMessages: [
-      {
-        id: "greeting",
-        role: "assistant",
-        parts: [{ type: "text", text: "Hey! I'm Josh's AI assistant. Ask me anything about his work, skills, or projects." }],
-      },
-    ],
-  });
-
-  const isLoading = status !== "ready";
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, status]);
+  }, [messages, isLoading]);
+
+  async function sendMessage(text: string) {
+    const userMsg: Message = { id: Date.now().toString(), role: "user", text };
+    setMessages((prev) => [...prev, userMsg]);
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+      const { reply } = await res.json();
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now().toString() + "-a", role: "assistant", text: reply },
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now().toString() + "-e", role: "assistant", text: "Something went wrong. Please try again." },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   function submit() {
     const text = input.trim();
     if (!text || isLoading) return;
-    sendMessage({ text });
     setInput("");
+    sendMessage(text);
   }
 
   function handleKey(e: React.KeyboardEvent) {
@@ -130,6 +152,7 @@ export function AIChatButton() {
           font-family: var(--font-geist-sans);
           font-size: 0.82rem;
           line-height: 1.5;
+          white-space: pre-wrap;
         }
         .ai-bubble-ai {
           background: var(--muted);
@@ -226,7 +249,7 @@ export function AIChatButton() {
           <div className="ai-panel-messages">
             {messages.map((m) => (
               <div key={m.id} className={`ai-bubble ${m.role === "user" ? "ai-bubble-user" : "ai-bubble-ai"}`}>
-                {m.parts.map((part, i) => part.type === "text" ? <span key={i}>{part.text}</span> : null)}
+                {m.text}
               </div>
             ))}
             {isLoading && (
@@ -245,11 +268,23 @@ export function AIChatButton() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Ask me anything..."
+              maxLength={1000}
             />
             <button className="ai-send" onClick={submit} disabled={!input.trim() || isLoading}>
               <Send size={14} />
             </button>
           </div>
+          {input.length > 0 && (
+            <div style={{
+              padding: "0 16px 8px",
+              textAlign: "right",
+              fontFamily: "var(--font-geist-mono)",
+              fontSize: "0.65rem",
+              color: input.length >= 950 ? "var(--primary)" : "var(--muted-foreground)",
+            }}>
+              {input.length}/1000
+            </div>
+          )}
         </div>
       )}
 
