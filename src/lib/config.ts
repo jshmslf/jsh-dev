@@ -37,13 +37,31 @@ export const RADIUS_PRESETS = [
 
 export const PROJECTS = [
   {
+    title: "Tracr",
+    slug: "tracr",
+    description: "A job application tracker that helps users organize and monitor their application progress, paired with a browser extension for easier, on-the-spot tracking — see GitHub repo for the extension.",
+    link: "https://tracr-web.vercel.app",
+    image: "/assets/siteshot/tracr.webp",
+    github: "",
+    stack: ["Next.js", "Python", "PostgreSQL", "Vercel"],
+  },
+  {
+    title: "Vault",
+    slug: "vault",
+    description: "A mobile password manager with a password aging system that detects weak or outdated passwords and recommends stronger replacements.",
+    link: "https://github.com/jshmslf/vault-mobile",
+    image: "/assets/siteshot/vault.webp",
+    github: "https://github.com/jshmslf/vaullt-mobile-backend",
+    stack: ["React Native", "Python", "PostgreSQL", "Android"],
+  },
+  {
     title: "Jointify",
     slug: "jointify",
     description: "A smart budgeting web app for couples to track joint finances and generate instant financial summaries.",
-    link: "developing",
-    image: "",
+    link: "https://jointify-web.vercel.app/",
+    image: "/assets/siteshot/jointify.webp",
     github: "",
-    stack: ["Next.js", "TypeScript", "PostgreSQL"],
+    stack: ["Next.js", "TypeScript", "PostgreSQL", "OnRender", "Vercel"],
   },
   {
     title: "Xtream",
